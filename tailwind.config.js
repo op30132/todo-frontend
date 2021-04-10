@@ -11,18 +11,18 @@ module.exports = {
 		},
 		colors: {
 			transparent: "transparent",
-			
 			black: "black",
 			white: "white",
-			blue: {
-				light: "#3644a8",
-				DEFAULT: "#202d8b",
-				dark: "#131e70",
+			red: "#FF5555",
+			cyan: "#5AE1C3",
+			purple: {
+				bg: "#f4f2ff",
+				light: "#643FDB",
+				DEFAULT: "#351ec4",
+				dark: "#2610b2"
 			},
-			yellow: {
-				light: "#ffc654",
-				DEFAULT: "#fbba38",
-				dark: "#f0a91d",
+			orange: {
+				DEFAULT: "#FF8A00",
 			},
 			gray: {
 				darkest: "#1f2d3d",
@@ -30,9 +30,25 @@ module.exports = {
 				DEFAULT: "#c0ccda",
 				light: "#e0e6ed",
 				lightest: "#f9fafc",
+			},
+			beige: {
+				light: "#F7F7FA",
+				DEFAULT: "#F1F1F5",
+				dark: "#B2AEC2"
 			}
 		},
-		extend: {},
+		minWidth: {
+			"0": "0",
+			"1/5": "20%",
+			"1/4": "25%",
+			"1/2": "50%",
+			"3/4": "75%",
+			"full": "100%",
+			"min-w-min": "min-content",
+			"min-w-max": "max-content"
+		},
+		extend: {
+		},
 	},
 	variants: {
 		animation: ["responsive", "motion-safe", "motion-reduce", "hover"]

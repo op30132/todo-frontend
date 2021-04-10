@@ -3,3 +3,11 @@
 @tailwind utilities;
 
 
+@layer components {
+  .menuitem {
+    @apply p-2 rounded-md text-base cursor-pointer font-extrabold;
+  }
+  .taskitem {
+    @apply w-full text-xl mt-4 p-4 rounded-xl;
+  }
+}
