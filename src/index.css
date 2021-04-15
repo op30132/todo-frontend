@@ -8,6 +8,33 @@
     @apply p-2 rounded-md text-base cursor-pointer font-extrabold;
   }
   .taskitem {
-    @apply w-full text-xl mt-4 p-4 rounded-xl;
+    @apply mt-4 p-4 w-full text-xl rounded-lg;
+  }
+  .overlay {
+    @apply fixed top-0 left-0 overflow-auto h-screen w-screen bg-black bg-opacity-30
+  }
+  .modal {
+    @apply m-auto mt-20 w-6/12 bg-white rounded-md border-0
+  }
+  .modal-sm {
+    @apply w-4/12
+  }
+  .close {
+    @apply p-2 cursor-pointer
+  }
+  .modal-header {
+    @apply flex justify-between px-6 py-3 border-b border-gray-light
+  }
+  .modal-content{
+    @apply px-8 py-4
+  }
+  .modal-footer {
+    @apply flex justify-end px-6 py-3 border-t border-gray-light
+  }
+  .btn {
+    @apply px-4 py-2 bg-purple text-white rounded-md
+  }
+  .btn:hover {
+    @apply bg-purple-light
   }
 }
