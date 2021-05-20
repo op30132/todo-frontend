@@ -1,11 +1,10 @@
 import React from "react";
 import ReactModal from "react-modal";
 import { BrowserRouter as Router, Route, Switch, } from "react-router-dom";
-import Main from "../components/mainBoard/Main";
-import Sidebar from "../components/sidebar/Sidebar";
-
 import "./App.css";
-import Login from "./login/Login";
+import Main from "./components/mainBoard";
+import Sidebar from "./components/mainBoard/sidebar/Sidebar";
+import Login from "./components/login";
 
 
 const App: React.FunctionComponent = () => {
