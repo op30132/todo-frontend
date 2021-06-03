@@ -32,9 +32,12 @@
     @apply flex justify-end px-6 py-3 border-t border-gray-light
   }
   .btn {
-    @apply px-4 py-2 bg-purple text-white rounded-md
+    @apply px-4 py-2 bg-white text-black rounded-md shadow-sm
   }
-  .btn:hover {
+  .btn-purple {
+    @apply bg-purple text-white
+  }
+  .btn-purple:hover {
     @apply bg-purple-light
   }
 }

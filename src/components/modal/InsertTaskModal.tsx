@@ -57,7 +57,7 @@ const InsertTaskModal: FunctionComponent<ModalProps> = ({ isOpen, onHide }) => {
             </div>
           </div>
           <div className="modal-footer">
-            <button type="submit" className="btn">Submit</button>
+            <button type="submit" className="btn btn-purple">Submit</button>
           </div>
         </Form>
       </Formik>

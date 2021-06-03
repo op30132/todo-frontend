@@ -12,8 +12,10 @@ const App: React.FunctionComponent = () => {
 
 	return (
 		<Router>
-			<Login />
 			<Switch>
+				<Route path="/login">
+					<Login/>
+				</Route>
 				<Route path="/home">
 					<div className="flex h-screen antialiased text-gray-dark">
 						<Sidebar></Sidebar>
