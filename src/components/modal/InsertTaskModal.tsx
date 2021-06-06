@@ -3,17 +3,15 @@ import React, { FunctionComponent } from "react";
 import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
 import DatePicker from "react-datepicker";
+import { Todo } from "../../models/model";
 export type ModalProps = {
   initialState?: Record<string, unknown>;
   isOpen: boolean;
-  onHide: () => void
+  onHide: () => void;
+  todoItem?: Todo;
 }
-interface Values {
-  title: string;
-  content: string;
-  dueDate: Date;
-}
-const InsertTaskModal: FunctionComponent<ModalProps> = ({ isOpen, onHide }) => {
+
+const InsertTaskModal: FunctionComponent<ModalProps> = ({ isOpen, onHide, todoItem }) => {
   return (
     <Modal
       className="modal modal-sm"
@@ -28,13 +26,13 @@ const InsertTaskModal: FunctionComponent<ModalProps> = ({ isOpen, onHide }) => {
       </div>
       <Formik
         initialValues={{
-          title: "",
-          content: "",
-          dueDate: new Date(),
+          title: todoItem?.title || "",
+          content: todoItem?.content || "",
+          dueDate: todoItem?.dueDate || new Date(),
         }}
         onSubmit={(
-          values: Values,
-          { setSubmitting }: FormikHelpers<Values>
+          values: Todo,
+          { setSubmitting }: FormikHelpers<Todo>
         ) => {
           setTimeout(() => {
             alert(JSON.stringify(values, null, 2));
@@ -53,7 +51,7 @@ const InsertTaskModal: FunctionComponent<ModalProps> = ({ isOpen, onHide }) => {
                 <div className="w-10/12">
                   <DatePicker
                     selected={values.dueDate}
-                    dateFormat="MMMM d, yyyy"
+                    dateFormat="yyyy/MM/dd"
                     name="dueDate"
                     onChange={date => setFieldValue("dueDate", date)}
                   />

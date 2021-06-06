@@ -8,12 +8,19 @@ import InsertTaskModal from "../modal/InsertTaskModal";
 const Taskitem = (props: { task: Task }): JSX.Element => {
   const { task } = props;
   const [isOpen, setIsOpen] = useState(false);
-
+  const [currentItem, setCurrentItem] = useState({});
   const onHide = () => {
     setIsOpen(false);
   };
   const openModal = () => {
     setIsOpen(true);
+  };
+  const openModalWithItem = (todo: Todo) => {
+    openModal();
+    setCurrentItem(todo);
+  };
+  const onCompleted = (todo: Todo) => {
+    console.log(todo.isComplete);
   };
   return (
     <>
@@ -24,14 +31,14 @@ const Taskitem = (props: { task: Task }): JSX.Element => {
             {
               task.todos.map((todo: Todo) => {
                 return (
-                  <div key={todo.did} className="taskitem bg-white shadow ">
+                  <div key={todo.did} className="taskitem bg-white shadow cursor-pointer" onClick={() => openModalWithItem(todo)}>
                     <div className="flex items-center ">
-                      <div className="mr-4">
+                      <div className="mr-4" onClick={(e)=> {e.stopPropagation(); onCompleted(todo);}}>
                         {todo.isComplete ?
                           <FiCheckCircle className="text-purple" /> :
                           <RiCheckboxBlankCircleLine className="text-gray" />}
                       </div>
-                      <span className="text-gray-dark font-semibold">{todo.content}</span>
+                      <span className="text-gray-dark font-semibold">{todo.title}</span>
                     </div>
                     <span className="ml-8 text-beige-dark text-base">{dayjs(todo.dueDate).format("h:mm a")}</span>
                   </div>
@@ -47,7 +54,7 @@ const Taskitem = (props: { task: Task }): JSX.Element => {
           </ul>
         </div>
       </div>
-      <InsertTaskModal isOpen={isOpen} onHide={onHide}></InsertTaskModal>
+      <InsertTaskModal isOpen={isOpen} onHide={onHide} todoItem={currentItem}></InsertTaskModal>
     </>
   );
 };

@@ -7,11 +7,11 @@ const Board: React.FunctionComponent = () => {
     tid: 1,
     title: "Task",
     todos: [
-      {did: 11, content: "Set up github repo", isComplete: true, creator: {
+      {did: 11, title: "Set up github repo", isComplete: true, creator: {
         id: 111,
         name: "winnie"
       }, dueDate: new Date()},
-      {did: 22, content: "Write basic server that authenticate User", isComplete: false, creator: {
+      {did: 22, title: "Write basic server that authenticate User", isComplete: false, creator: {
         id: 111,
         name: "winnie"
       }, dueDate: new Date()},
@@ -20,7 +20,7 @@ const Board: React.FunctionComponent = () => {
     tid: 2,
     title: "buy",
     todos: [
-      {did: 33, content: "buy tissue", isComplete: true, creator: {
+      {did: 33, title: "buy tissue", isComplete: true, creator: {
         id: 111,
         name: "winnie"
       }, dueDate: new Date()},

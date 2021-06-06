@@ -5,11 +5,12 @@ export interface Task {
 }
 
 export interface Todo {
-  did: number;
-  content: string;
-  isComplete: boolean;
-  creator: UserProfile;
-  dueDate: Date;
+  did?: number;
+  title?: string;
+  content?: string;
+  isComplete?: boolean;
+  creator?: UserProfile;
+  dueDate?: Date;
 
 }
 
