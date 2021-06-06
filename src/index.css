@@ -34,14 +34,17 @@
   .btn {
     @apply px-4 py-2 bg-white text-black rounded-md shadow-sm
   }
+  .btn:disabled{
+    @apply cursor-not-allowed;
+  }
   .btn-purple {
     @apply bg-purple text-white
   }
-  .btn-purple:hover {
+  .btn-purple:enabled:hover {
     @apply bg-purple-light
   }
   input, label{
-    @apply p-2 w-full ;
+    @apply p-2 w-full;
   }
   input {
     @apply border-2 border-gray-light
