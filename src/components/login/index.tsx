@@ -29,10 +29,10 @@ const Login: FunctionComponent<Record<string, unknown>> = () => {
         }}>
         <Form>
         <div className="flex mb-4">
-          <Field id="account" name="account" className="p-2 w-full rounded-sm" placeholder="account" autoFocus />
+          <Field id="account" name="account" className="" placeholder="account" autoFocus />
         </div>
         <div className="flex mb-4">
-          <Field id="password" name="password" className="p-2 w-full rounded-sm" placeholder="password" />
+          <Field id="password" name="password" className="" placeholder="password" />
         </div>
         <div>
           <button type="submit" className="btn btn-purple w-full mb-4">login</button>

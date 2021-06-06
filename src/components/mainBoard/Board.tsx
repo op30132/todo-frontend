@@ -33,6 +33,11 @@ const Board: React.FunctionComponent = () => {
 					return <Taskitem key={task.tid} task={task} />;
 				})
 			}
+			<div className="px-2 py-6 w-full md:w-1/2 lg:w-1/4">
+				<div className="px-4 py-6 bg-purple-dark bg-opacity-10 rounded-md shadow">
+					<div className="text-gray-dark text-center font-bold">Add a list</div>
+				</div>
+			</div>
 		</div>
 	);
 };

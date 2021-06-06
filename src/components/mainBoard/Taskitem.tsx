@@ -7,7 +7,7 @@ import InsertTaskModal from "../modal/InsertTaskModal";
 
 const Taskitem = (props: { task: Task }): JSX.Element => {
 	const { task } = props;
-	const [isOpen, setIsOpen] = useState(true);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const onHide = () => {
 		setIsOpen(false);
@@ -17,7 +17,7 @@ const Taskitem = (props: { task: Task }): JSX.Element => {
 	};
 	return (
 		<>
-			<div className="px-2 py-6 w-full md:w-1/2 lg:w-1/3">
+			<div className="px-2 py-6 w-full md:w-1/2 lg:w-1/4">
 				<div className="px-4 py-6 bg-beige rounded-lg shadow">
 					<div className="text-purple font-bold">{task.title}</div>
 					<ul>

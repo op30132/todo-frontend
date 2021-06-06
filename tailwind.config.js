@@ -17,6 +17,7 @@ module.exports = {
 			cyan: "#5AE1C3",
 			purple: {
 				bg: "#f4f2ff",
+				lightest: "#cdc7f2",
 				light: "#643FDB",
 				DEFAULT: "#351ec4",
 				dark: "#2610b2"
