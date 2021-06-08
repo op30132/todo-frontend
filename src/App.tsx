@@ -8,25 +8,25 @@ import Login from "./components/login";
 
 
 const App: React.FunctionComponent = () => {
-	ReactModal.setAppElement("#root");
+  ReactModal.setAppElement("#root");
 
-	return (
-		<Router>
-			<Switch>
-				<Route path="/login">
-					<Login/>
-				</Route>
-				<Route path="/home">
-					<div className="flex h-screen antialiased text-gray-dark">
-						<Sidebar></Sidebar>
-						<div className="flex flex-col flex-1 min-h-screen overflow-x-hidden overflow-y-auto">
-							<Main></Main>
-						</div>
-					</div>
-				</Route>
-			</Switch>
-		</Router>
-	);
+  return (
+    <Router>
+      <Switch>
+        <Route path="/login">
+          <Login/>
+        </Route>
+        <Route path="/home">
+          <div className="flex h-screen antialiased text-gray-dark">
+            <Sidebar></Sidebar>
+            <div className="flex flex-col flex-1 min-h-screen overflow-x-hidden overflow-y-auto">
+              <Main></Main>
+            </div>
+          </div>
+        </Route>
+      </Switch>
+    </Router>
+  );
 };
 
 export default App;

@@ -5,10 +5,10 @@
 
 @layer components {
   .menuitem {
-    @apply p-2 rounded-md text-base cursor-pointer font-extrabold;
+    @apply p-2 rounded-sm text-base cursor-pointer font-extrabold;
   }
   .taskitem {
-    @apply mt-4 p-4 w-full text-xl rounded-lg;
+    @apply mb-3 p-3 w-full rounded-md;
   }
   .overlay {
     @apply fixed top-0 left-0 overflow-auto h-screen w-screen bg-black bg-opacity-30

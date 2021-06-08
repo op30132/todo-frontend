@@ -24,19 +24,19 @@ const Taskitem = (props: { task: Task }): JSX.Element => {
   };
   return (
     <>
-      <div className="px-2 py-6 w-full md:w-1/2 lg:w-1/4">
-        <div className="px-4 py-6 bg-beige rounded-lg shadow">
-          <div className="text-purple font-bold">{task.title}</div>
+      <div className="p-2 w-full md:w-1/2 lg:w-1/4">
+        <div className="px-4 py-2 bg-beige rounded-lg shadow">
+          <div className="text-purple font-bold mb-1">{task.title}</div>
           <ul>
             {
               task.todos.map((todo: Todo) => {
                 return (
                   <div key={todo.did} className="taskitem bg-white shadow cursor-pointer" onClick={() => openModalWithItem(todo)}>
-                    <div className="flex items-center ">
-                      <div className="mr-4" onClick={(e)=> {e.stopPropagation(); onCompleted(todo);}}>
+                    <div className="flex items-start ">
+                      <div className="mr-4 mt-1" onClick={(e)=> {e.stopPropagation(); onCompleted(todo);}}>
                         {todo.isComplete ?
-                          <FiCheckCircle className="text-purple" /> :
-                          <RiCheckboxBlankCircleLine className="text-gray" />}
+                          <FiCheckCircle className="text-purple text-lg" /> :
+                          <RiCheckboxBlankCircleLine className="text-gray text-xl" />}
                       </div>
                       <span className="text-gray-dark font-semibold">{todo.title}</span>
                     </div>
@@ -45,7 +45,7 @@ const Taskitem = (props: { task: Task }): JSX.Element => {
                 );
               })
             }
-            <div onClick={openModal} className="taskitem flex items-center border border-beige-dark border-opacity-80 p-2 cursor-pointer">
+            <div onClick={openModal} className="taskitem flex items-center border border-beige-dark border-opacity-80 p-1 cursor-pointer">
               <div className="flex items-center m-auto">
                 <FiPlusSquare />
                 <span className="ml-2">Add a task</span>

@@ -1,4 +1,5 @@
 import React from "react";
+import { FiPlus } from "react-icons/fi";
 import { Task } from "../../models/model";
 import Taskitem from "./Taskitem";
 
@@ -26,6 +27,9 @@ const Board: React.FunctionComponent = () => {
       }, dueDate: new Date()},
     ]
   }];
+  const addList = () => {
+    console.log();
+  };
   return (
     <div className="flex flex-wrap">
       {
@@ -33,9 +37,12 @@ const Board: React.FunctionComponent = () => {
           return <Taskitem key={task.tid} task={task} />;
         })
       }
-      <div className="px-2 py-6 w-full md:w-1/2 lg:w-1/4">
-        <div className="px-4 py-6 bg-purple-dark bg-opacity-10 rounded-md shadow">
-          <div className="text-gray-dark text-center font-bold">Add a list</div>
+      <div className="p-2 w-full md:w-1/2 lg:w-1/4" onClick={addList}>
+        <div className="px-4 py-2 bg-purple-dark bg-opacity-10 rounded-md shadow">
+          <div className="flex items-center m-auto">
+            <FiPlus />
+            <span className="text-gray-dark text-center font-bold">Add a list</span>
+          </div>
         </div>
       </div>
     </div>
