@@ -15,8 +15,8 @@ export interface Todo {
 }
 
 export interface UserProfile {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
   email?: string;
   account?: string;
 }
