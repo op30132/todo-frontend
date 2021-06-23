@@ -20,3 +20,17 @@ export interface UserProfile {
   email?: string;
   account?: string;
 }
+
+export interface JwtToken {
+  sub: string;
+  exp: number;
+}
+export interface AccessToken {
+  accessToken: string;
+}
+export interface Project {
+  name?: string;
+  owner?: string;
+  coworker?: string[];
+  createdAt?: Date;
+}

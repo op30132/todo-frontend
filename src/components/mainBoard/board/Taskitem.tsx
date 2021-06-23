@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { Task, Todo } from "../../models/model";
+import { Task, Todo } from "../../../models/model";
 import { RiCheckboxBlankCircleLine } from "react-icons/ri";
 import { FiCheckCircle, FiPlusSquare } from "react-icons/fi";
 import dayjs from "dayjs";
-import InsertTaskModal from "../modal/InsertTaskModal";
+import InsertTaskModal from "../../modal/InsertTaskModal";
 
 const Taskitem = (props: { task: Task }): JSX.Element => {
   const { task } = props;

@@ -1,6 +1,6 @@
 import React from "react";
 import { FiPlus } from "react-icons/fi";
-import { Task } from "../../models/model";
+import { Task } from "../../../models/model";
 import Taskitem from "./Taskitem";
 
 const Board: React.FunctionComponent = () => {

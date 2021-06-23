@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Menuitem from "./Menuitem";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdAssessment } from "react-icons/md";
@@ -6,9 +6,31 @@ import { HiFolder } from "react-icons/hi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { BsSquareFill } from "react-icons/bs";
 import { BiArchiveIn } from "react-icons/bi";
+import {getCoworkerProjectList, getProjectList} from "../../../service/projectService";
+import { useApi } from "../../../hook/UseAxios";
+import { Project } from "../../../models/model";
 
 
 const Menu: React.FunctionComponent = () => {
+  // console.log("menu");
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    getProjectList().then(res => {
+      console.log(res);
+      setProjects(res);
+    }).catch(err => {
+      console.log(err);
+      return null;
+    });
+    getCoworkerProjectList().then(res => {
+      console.log(res);
+    }).catch(err => {
+      console.log(err);
+      return null;
+    });
+  }, []);
+
   return (
     <div className="mt-9">
       <ul className="space-y-1">
@@ -30,10 +52,15 @@ const Menu: React.FunctionComponent = () => {
           </div>
         </li>
         <div role="menu" x-data="open = false" className="mt-2 pl-4 space-y-2" aria-label="Dashboards">
-          <Menuitem>
-            <BsSquareFill className="text-xs text-red"/>
-            <span className="ml-4">time app</span>
-          </Menuitem>
+          {
+            projects.map(el => {
+              <Menuitem>
+                <BsSquareFill className="text-xs text-red"/>
+                <span className="ml-4">{el.name}</span>
+              </Menuitem>;
+            })
+          }
+
           <Menuitem>
             <BsSquareFill className="text-xs text-cyan"/>
             <span className="ml-4">private work</span>

@@ -1,6 +1,6 @@
 import React from "react";
-import Board from "./Board";
-import BoardHeader from "./BoardHeader";
+import Board from "./board/Board";
+import BoardHeader from "./board/BoardHeader";
 
 const Main: React.FunctionComponent = () => {
   return (

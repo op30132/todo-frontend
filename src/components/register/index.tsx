@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
-import AuthLayout from "../../layout/authLayout";
+import AuthLayout from "../../layout/AuthLayout";
 import FocusError from "../../shared/focusError";
 
 const RegisterSchema = Yup.object().shape({

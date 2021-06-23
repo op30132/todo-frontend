@@ -1,9 +1,10 @@
 import { Field, Form, Formik } from "formik";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import * as Yup from "yup";
-import AuthLayout from "../../layout/authLayout";
+import AuthLayout from "../../layout/AuthLayout";
+import { userLogin } from "../../service/authService";
 import FocusError from "../../shared/focusError";
  
 const loginSchema = Yup.object().shape({
@@ -17,28 +18,20 @@ interface Values {
 
 const Login: React.FC<Record<string, unknown>> = () => {
   const history = useHistory();
-  const query = new URLSearchParams(useLocation().search);
-  if(query.get("token")) {
-    history.push("/home");
-  }
   const googlelogin = () => {
     window.location.href = "http://localhost:3001/api/auth/google";
   };
   const login = (values: Values) => {
-    fetch("/api/auth/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(values)
-    }).then(res => res.json())
-      .then(res => {
-        if(res.statusCode===401) {
-          alert(res.message.indexOf("google")>-1 ? "you seem to login with google" : "Incorrect account or password");
-          return;
-        }
+    userLogin(values.email, values.password).then(res => {
+      if(res) {
         history.push("/home");
-      });
+      }
+    }).catch(err => {
+      if(err.response.status===401) {
+        alert(err.response.data.message);
+        return null;
+      }
+    });
   };
   return (
     <AuthLayout label={"Login TODO"}>
