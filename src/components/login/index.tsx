@@ -31,6 +31,8 @@ const Login: React.FC<Record<string, unknown>> = () => {
         alert(err.response.data.message);
         return null;
       }
+      alert("something wrong! Please try again!");
+      return null;
     });
   };
   return (
@@ -40,6 +42,7 @@ const Login: React.FC<Record<string, unknown>> = () => {
           email: "",
           password: "",
         }}
+        validateOnChange={false}
         validationSchema={loginSchema}
         onSubmit={login}>
         {({ errors, touched, isSubmitting }) => (

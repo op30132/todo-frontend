@@ -12,24 +12,12 @@ export function userLogin(email: string, password: string):Promise<boolean> {
 export function userRegister(user: UserProfile):Promise<UserProfile> {
   return axios.post<UserProfile>("/api/auth/register", user).then((res) => res.data);
 }
-export function logout():Promise<boolean> {
-  return api.delete("/auth/token/logout").then(() => {
+export function userLogout():Promise<boolean> {
+  return api.delete("/api/auth/token/logout").then(() => {
     inMemoryJWT.ereaseToken();
     return true;
   });
 }
-
-// let isRefreshing: null | Promise<any> = null;
-
-// export function waitForTokenRefresh(): Promise<any> {
-//   if (!isRefreshing) {
-//     return Promise.resolve();
-//   }
-//   return isRefreshing.then(() => {
-//     isRefreshing = null;
-//     return true;
-//   });
-// }
 export function getRefreshToken(): Promise<AccessToken> {
   return axios.get<AccessToken>("/api/auth/token/refresh")
     .then((res) => {

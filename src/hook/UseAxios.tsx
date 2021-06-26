@@ -1,24 +1,26 @@
 
+import { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
 
-type ApiState<T> = {
-  response: T | null;
-  error: string;
-  loading: boolean
-};
+type ApiState<Type> = [
+  Type | null,
+  string,
+  boolean
+];
 
-export function useApi<T>(requestParams: Promise<T>): ApiState<T> {
-  const [response, setResponse] = useState<T | null>(null);
+export function useApi<Type>(requestParams: () => Promise<AxiosResponse<Type>>): ApiState<Type> {
+  const [data, setData] = useState<Type | null>(null);
   const [error, setError] = useState("");
   const [loading, setloading] = useState(true);
 
-  const fetchData = async (request: Promise<T>) => {
+  const fetchData = async (request: () => Promise<AxiosResponse<Type>>) => {
     try {
-      console.log(111);
-      const result = await request;
-      setResponse(result);
+      const result = await request();
+      setData(result.data);
     } catch(error) {
+      console.log(error);
       setError(error);
+      return null;
     } finally {
       setloading(false);
     }
@@ -28,5 +30,5 @@ export function useApi<T>(requestParams: Promise<T>): ApiState<T> {
     fetchData(requestParams);
   }, []);
 
-  return { response, error, loading };
+  return [data, error, loading];
 }

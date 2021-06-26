@@ -29,6 +29,7 @@ export interface AccessToken {
   accessToken: string;
 }
 export interface Project {
+  id: string;
   name?: string;
   owner?: string;
   coworker?: string[];
