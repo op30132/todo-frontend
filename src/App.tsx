@@ -2,35 +2,25 @@ import React from "react";
 import ReactModal from "react-modal";
 import { BrowserRouter as Router, Redirect, Route, Switch, } from "react-router-dom";
 import "./App.css";
-import Main from "./components/mainBoard";
-import Sidebar from "./components/mainBoard/sidebar/Sidebar";
 import Login from "./components/login";
 import Register from "./components/register";
+import PrivateRoute from "./shared/privateRoute";
 
+const MainBoard = React.lazy(() => import("./components/mainBoard"));
 
-const App: React.FunctionComponent = () => {
+const App: React.FC = () => {
   ReactModal.setAppElement("#root");
-
   return (
-    <Router>
-      <Switch>
-        <Redirect exact from="/" to="/login" />
-        <Route path="/login">
-          <Login/>
-        </Route>
-        <Route path="/register">
-          <Register/>
-        </Route>
-        <Route path="/home">
-          <div className="flex h-screen antialiased text-gray-dark">
-            <Sidebar></Sidebar>
-            <div className="flex flex-col flex-1 min-h-screen overflow-x-hidden overflow-y-auto">
-              <Main></Main>
-            </div>
-          </div>
-        </Route>
-      </Switch>
-    </Router>
+    <React.Suspense fallback={<span>loading...</span>}>
+      <Router>
+        <Switch>
+          <Route path="/login" component={Login}/>
+          <Route path="/register" component={Register}/>
+          <PrivateRoute path="/home" component={MainBoard}/>
+          <Redirect exact from="/" to="/login"/>
+        </Switch>
+      </Router>
+    </React.Suspense>
   );
 };
 

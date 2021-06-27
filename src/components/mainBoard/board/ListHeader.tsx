@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import React from "react";
 
-const BoardHeader: React.FunctionComponent = () => {
+const ListHeader: React.FC = () => {
   const board=dayjs().format("dddd d, MMMM");
 
   return (
@@ -11,4 +11,4 @@ const BoardHeader: React.FunctionComponent = () => {
   );
 };
 
-export default BoardHeader;
+export default ListHeader;

@@ -3,7 +3,8 @@ import { BiCog } from "react-icons/bi";
 import { FaRegBell } from "react-icons/fa";
 import { useHistory } from "react-router-dom";
 import { userLogout } from "../../../service/authService";
-const UserBar = ():JSX.Element => {
+
+const UserBar: React.FC = () => {
   const history = useHistory();
   const [isOpen, setOpen] = useState<boolean>(false);
   const UserName="Winnie";

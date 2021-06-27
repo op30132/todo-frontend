@@ -25,7 +25,6 @@ export function getRefreshToken(): Promise<AccessToken> {
       return res.data;
     })
     .catch(err => {
-      alert("refresh token fail!");
       window.location.href="/login";
       return err;
     });

@@ -5,8 +5,11 @@ import { FiCheckCircle, FiPlusSquare } from "react-icons/fi";
 import dayjs from "dayjs";
 import InsertTaskModal from "../../modal/InsertTaskModal";
 
-const Taskitem = (props: { task: Task }): JSX.Element => {
-  const { task } = props;
+interface IProps {
+  task: Task;
+}
+
+const Taskitem: React.FC<IProps> = ({ task }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState({});
   const onHide = () => {

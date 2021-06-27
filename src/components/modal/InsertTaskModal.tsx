@@ -1,17 +1,18 @@
 import { Formik, FormikHelpers, Form, Field } from "formik";
-import React, { FunctionComponent } from "react";
+import React from "react";
 import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
 import DatePicker from "react-datepicker";
 import { Todo } from "../../models/model";
-export type ModalProps = {
+
+interface IProps {
   initialState?: Record<string, unknown>;
   isOpen: boolean;
   onHide: () => void;
   todoItem?: Todo;
 }
 
-const InsertTaskModal: FunctionComponent<ModalProps> = ({ isOpen, onHide, todoItem }) => {
+const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem }) => {
   return (
     <Modal
       className="modal modal-sm"

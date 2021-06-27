@@ -22,7 +22,7 @@ interface Values {
   username: string;
 }
 
-const register: React.FC<Record<string, unknown>> = () => {
+const register: React.FC = () => {
   const history = useHistory();
 
   return (

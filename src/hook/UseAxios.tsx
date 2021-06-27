@@ -8,7 +8,7 @@ type ApiState<Type> = [
   boolean
 ];
 
-export function useApi<Type>(requestParams: () => Promise<AxiosResponse<Type>>): ApiState<Type> {
+function useApi<Type>(requestParams: () => Promise<AxiosResponse<Type>>): ApiState<Type> {
   const [data, setData] = useState<Type | null>(null);
   const [error, setError] = useState("");
   const [loading, setloading] = useState(true);
@@ -32,3 +32,5 @@ export function useApi<Type>(requestParams: () => Promise<AxiosResponse<Type>>):
 
   return [data, error, loading];
 }
+
+export default useApi;

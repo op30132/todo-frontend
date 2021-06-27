@@ -3,7 +3,7 @@ import { FiPlus } from "react-icons/fi";
 import { Task } from "../../../models/model";
 import Taskitem from "./Taskitem";
 
-const Board: React.FunctionComponent = () => {
+const List: React.FC = () => {
   const taskList: Task[]=[{
     tid: 1,
     title: "Task",
@@ -50,4 +50,4 @@ const Board: React.FunctionComponent = () => {
 };
 
 
-export default Board;
+export default List;

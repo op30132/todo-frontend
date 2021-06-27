@@ -1,15 +1,17 @@
 import React from "react";
-import Board from "./board/Board";
-import BoardHeader from "./board/BoardHeader";
+import Board from "./board";
+import Sidebar from "./sidebar/Sidebar";
 
-const Main: React.FunctionComponent = () => {
+const MainBoard: React.FC = () => {
   return (
-    <div className="h-full py-12 px-8 bg-beige-light">
-      <BoardHeader />
-      <Board />
+    <div className="flex h-screen antialiased text-gray-dark">
+      <Sidebar/>
+      <div className="flex flex-col flex-1 min-h-screen overflow-x-hidden overflow-y-auto">
+        <Board/>
+      </div>
     </div>
   );
 };
 
 
-export default Main;
+export default MainBoard;

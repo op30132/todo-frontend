@@ -4,7 +4,10 @@ import { AccessToken } from "../models/model";
 import { getRefreshToken } from "../service/authService";
 
 let isRefreshing = false;
-let refreshQueue: { resolve: (res: any) => void; reject: (err: any) => void; }[] = [];
+let refreshQueue: { 
+  resolve: (res: AccessToken) => void; 
+  reject: (err: Error) => void; 
+}[] = [];
 const retries = 1;
 
 export const axiosInstance = axios.create();
@@ -31,12 +34,12 @@ axiosInstance.interceptors.response.use(response => response, async err => {
     isRefreshing = true;
 
     getRefreshToken()
-      .then((res) => {
+      .then(res => {
         refreshQueue.forEach((v) => v.resolve(res));
         refreshQueue = [];
       })
-      .catch(() => {
-        refreshQueue.forEach((v) => v.reject(err));
+      .catch(error => {
+        refreshQueue.forEach((v) => v.reject(error));
         refreshQueue = [];
       })
       .finally(() => {
@@ -46,7 +49,7 @@ axiosInstance.interceptors.response.use(response => response, async err => {
 
   return new Promise((resolve, reject) => {
     refreshQueue.push({
-      resolve: (res: AccessToken) => {
+      resolve: (res) => {
         const config = {...orgConfig, headers: {"Authorization": res.accessToken}};
         resolve(axiosInstance.request(config));
       },

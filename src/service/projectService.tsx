@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { Project } from "../models/model";
 import axiosInstance from "../shared/interceptor";
 

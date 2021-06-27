@@ -5,12 +5,12 @@ import { MdAssessment } from "react-icons/md";
 import { HiFolder } from "react-icons/hi";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { BiArchiveIn } from "react-icons/bi";
-import {getCoworkerProjectList, getProjectList} from "../../../service/projectService";
-import { useApi } from "../../../hook/UseAxios";
+import { getProjectList} from "../../../service/projectService";
 import { Project } from "../../../models/model";
+import useApi from "../../../hook/UseAxios";
 
 
-const Menu: React.FunctionComponent = () => {
+const Menu: React.FC = () => {
   const [projects, error, isLoading] = useApi<Project[]>(getProjectList);
 
   return (

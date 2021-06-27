@@ -43,6 +43,7 @@ const Login: React.FC<Record<string, unknown>> = () => {
           password: "",
         }}
         validateOnChange={false}
+        validateOnBlur={false}
         validationSchema={loginSchema}
         onSubmit={login}>
         {({ errors, touched, isSubmitting }) => (
