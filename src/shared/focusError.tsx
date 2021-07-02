@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useFormikContext } from "formik";
 
-const FocusError: React.FC<Record<string, unknown>> = () => {
+const FocusError: React.FC = () => {
   const { errors, isSubmitting, isValidating } = useFormikContext();
 
   useEffect(() => {

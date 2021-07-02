@@ -1,16 +1,16 @@
 
 import axios from "axios";
-import api from "../shared/interceptor";
+import api, { axiosInstance } from "../shared/interceptor";
 import inMemoryJWT from "../shared/inMemoryJwt";
-import { AccessToken, UserProfile } from "../models/model";
+import { AccessToken, UserProfile } from "../shared/model";
 
 export function userLogin(email: string, password: string):Promise<boolean> {
-  return axios.post<AccessToken>("/api/auth/login", {email, password}).then((response) => {
-    return inMemoryJWT.setToken(response.data.accessToken);
+  return axios.post<AccessToken>("/api/auth/login", {email, password}).then(res => {
+    return inMemoryJWT.setToken(res.data.accessToken);
   });
 }
 export function userRegister(user: UserProfile):Promise<UserProfile> {
-  return axios.post<UserProfile>("/api/auth/register", user).then((res) => res.data);
+  return axios.post<UserProfile>("/api/auth/register", user).then(res => res.data);
 }
 export function userLogout():Promise<boolean> {
   return api.delete("/api/auth/token/logout").then(() => {
@@ -29,8 +29,7 @@ export function getRefreshToken(): Promise<AccessToken> {
       return err;
     });
 }
-export function checkAuth(): Promise<boolean> {
-  return Promise.resolve(!!inMemoryJWT.getToken());
+export function fetchUserProfile(): Promise<UserProfile> {
+  return axiosInstance.get<UserProfile>("/api/auth/userProfile").then(res => res.data);
 }
-
 

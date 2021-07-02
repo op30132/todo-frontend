@@ -3,16 +3,18 @@ import React from "react";
 import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
 import DatePicker from "react-datepicker";
-import { Todo } from "../../models/model";
+import { Todo } from "../../shared/model";
+import dayjs from "dayjs";
 
 interface IProps {
   initialState?: Record<string, unknown>;
   isOpen: boolean;
   onHide: () => void;
   todoItem?: Todo;
+  onSubmit: (values: Todo) => void;
 }
 
-const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem }) => {
+const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit }) => {
   return (
     <Modal
       className="modal modal-sm"
@@ -32,13 +34,9 @@ const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem }) => {
           dueDate: todoItem?.dueDate || new Date(),
         }}
         onSubmit={(
-          values: Todo,
-          { setSubmitting }: FormikHelpers<Todo>
+          values: Todo
         ) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 500);
+          onSubmit(values);
         }}>
         {({ isSubmitting, values, setFieldValue }) => (
           <Form>
@@ -51,7 +49,7 @@ const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem }) => {
                 <label htmlFor="dueDate" className="w-2/12">DueDate</label>
                 <div className="w-10/12">
                   <DatePicker
-                    selected={values.dueDate}
+                    selected={dayjs(values.dueDate).toDate()}
                     dateFormat="yyyy/MM/dd"
                     name="dueDate"
                     onChange={date => setFieldValue("dueDate", date)}

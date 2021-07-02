@@ -1,12 +1,36 @@
-import React from "react";
+import React, { ReactNode } from "react";
+import { useState } from "react";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
-const Menuitem: React.FC = (props) => {
+interface IProp {
+  label: string;
+  leftIcon: ReactNode;
+  dropList? :ReactNode;
+}
+
+const Menuitem: React.FC<IProp> = ({leftIcon, label, dropList}) => {
+  const [isOpen, setOpen] = useState(true);
+  const openHandler = () => {
+    setOpen(current => !current);
+  };
+
   return (
-    <li className="group menuitem hover:bg-beige font-extrabold">
-      <div className="flex items-center text-dark group-hover:text-purple-light">
-        {props.children}
+    <>
+      <li className="group menuitem hover:bg-beige font-extrabold" onClick={openHandler}>
+        <div className="flex items-center justify-between text-dark group-hover:text-purple-light">
+          <div className="flex">
+            <span className="text-xl text-beige-dark group-hover:text-purple-light">
+              {leftIcon}
+            </span>
+            <span className="ml-4">{label}</span>
+          </div>
+          {dropList!== undefined ? <MdKeyboardArrowDown/> : null}
+        </div>
+      </li>
+      <div className={"overflow-hidden transition-all " +(isOpen ? "h-auto" : "h-0")}>
+        {dropList}
       </div>
-    </li>
+    </>
   );
 };
 

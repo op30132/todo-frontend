@@ -4,10 +4,14 @@ import App from "./App";
 import "./index.css";
 import "react-datepicker/dist/react-datepicker.css";
 import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import configureStore from "./store/store";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={configureStore}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );

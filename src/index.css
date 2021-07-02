@@ -17,7 +17,7 @@
     @apply m-auto mt-20 w-6/12 bg-white rounded-md border-0
   }
   .modal-sm {
-    @apply w-4/12
+    @apply max-w-xl w-5/6
   }
   .close {
     @apply p-2 cursor-pointer

@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import inMemoryJWT from "./inMemoryJwt";
-import { AccessToken } from "../models/model";
+import { AccessToken } from "./model";
 import { getRefreshToken } from "../service/authService";
 
 let isRefreshing = false;

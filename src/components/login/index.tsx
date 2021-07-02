@@ -16,7 +16,7 @@ interface Values {
   password: string;
 }
 
-const Login: React.FC<Record<string, unknown>> = () => {
+const Login: React.FC = () => {
   const history = useHistory();
   const googlelogin = () => {
     window.location.href = "http://localhost:3001/api/auth/google";

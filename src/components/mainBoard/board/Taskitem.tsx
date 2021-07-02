@@ -1,54 +1,56 @@
 import React, { useState } from "react";
-import { Task, Todo } from "../../../models/model";
-import { RiCheckboxBlankCircleLine } from "react-icons/ri";
-import { FiCheckCircle, FiPlusSquare } from "react-icons/fi";
-import dayjs from "dayjs";
+import { List, Todo } from "../../../shared/model";
+import { FiPlusSquare } from "react-icons/fi";
 import InsertTaskModal from "../../modal/InsertTaskModal";
+import useApi from "../../../hook/UseAxios";
+import { insertTodo, getTodosbyListId } from "../../../service/todoService";
+import TodoItem from "./TodoItem";
 
 interface IProps {
-  task: Task;
+  list: List;
 }
 
-const Taskitem: React.FC<IProps> = ({ task }) => {
+const Taskitem: React.FC<IProps> = ({ list }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState({});
+  const [todos, error, isLoading, refetch] = useApi<Todo[]>(getTodosbyListId(list.id));
+
   const onHide = () => {
     setIsOpen(false);
   };
   const openModal = () => {
     setIsOpen(true);
   };
-  const openModalWithItem = (todo: Todo) => {
+  const openModalWithItem = (todo?: Todo) => {
     openModal();
-    setCurrentItem(todo);
+    setCurrentItem(todo || {});
   };
   const onCompleted = (todo: Todo) => {
     console.log(todo.isComplete);
   };
+  const insertTask = (todo: Todo) => {
+    const data = {...todo, listId: list.id};
+    insertTodo(data).then(() => {
+      onHide();
+      refetch(true);
+    }).catch(console.log);
+  };
+  if(isLoading) return <div>loading</div>;
+  if(error) return <div>Something wrong</div>;
   return (
     <>
       <div className="p-2 w-full md:w-1/2 lg:w-1/4">
         <div className="px-4 py-2 bg-beige rounded-lg shadow">
-          <div className="text-purple font-bold mb-1">{task.title}</div>
+          <div className="text-purple font-bold mb-1">{list.title}</div>
           <ul>
             {
-              task.todos.map((todo: Todo) => {
+              todos && todos.map((todo: Todo) => {
                 return (
-                  <div key={todo.did} className="taskitem bg-white shadow cursor-pointer" onClick={() => openModalWithItem(todo)}>
-                    <div className="flex items-start ">
-                      <div className="mr-4 mt-1" onClick={(e)=> {e.stopPropagation(); onCompleted(todo);}}>
-                        {todo.isComplete ?
-                          <FiCheckCircle className="text-purple text-lg" /> :
-                          <RiCheckboxBlankCircleLine className="text-gray text-xl" />}
-                      </div>
-                      <span className="text-gray-dark font-semibold">{todo.title}</span>
-                    </div>
-                    <span className="ml-8 text-beige-dark text-base">{dayjs(todo.dueDate).format("h:mm a")}</span>
-                  </div>
+                  <TodoItem key={todo.id} todo={todo} clickEvent={openModalWithItem} onCompleted={onCompleted} />
                 );
               })
             }
-            <div onClick={openModal} className="taskitem flex items-center border border-beige-dark border-opacity-80 p-1 cursor-pointer">
+            <div onClick={() => openModalWithItem()} className="taskitem flex items-center border border-beige-dark border-opacity-80 p-1 cursor-pointer">
               <div className="flex items-center m-auto">
                 <FiPlusSquare />
                 <span className="ml-2">Add a task</span>
@@ -57,7 +59,7 @@ const Taskitem: React.FC<IProps> = ({ task }) => {
           </ul>
         </div>
       </div>
-      <InsertTaskModal isOpen={isOpen} onHide={onHide} todoItem={currentItem}></InsertTaskModal>
+      <InsertTaskModal isOpen={isOpen} onHide={onHide} onSubmit={insertTask} todoItem={currentItem}></InsertTaskModal>
     </>
   );
 };
