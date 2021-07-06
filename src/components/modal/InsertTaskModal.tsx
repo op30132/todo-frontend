@@ -10,7 +10,7 @@ interface IProps {
   initialState?: Record<string, unknown>;
   isOpen: boolean;
   onHide: () => void;
-  todoItem?: Todo;
+  todoItem?: Todo | null;
   onSubmit: (values: Todo) => void;
 }
 
@@ -50,15 +50,16 @@ const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit 
                 <div className="w-10/12">
                   <DatePicker
                     selected={dayjs(values.dueDate).toDate()}
-                    dateFormat="yyyy/MM/dd"
+                    dateFormat="yyyy/MM/dd h:mm a"
                     name="dueDate"
+                    showTimeSelect
                     onChange={date => setFieldValue("dueDate", date)}
                   />
                 </div>
               </div>
               <div className="flex mb-4">
                 <label htmlFor="content" className="w-2/12">content</label>
-                <Field id="content" name="content" component="textarea" rows="4" className="w-10/12"/>
+                <Field id="content" name="content" component="textarea" rows="4" className="w-10/12" />
               </div>
             </div>
             <div className="modal-footer">

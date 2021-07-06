@@ -1,5 +1,5 @@
 import { List } from "../../shared/model";
-import { RECEIVE_LISTS, REQUEST_LISTS } from "./projectAction";
+import { RECEIVE_LISTS, REQUEST_LISTS, SORT_LISTS } from "./projectAction";
 
 export interface ProjectAction {
   type: string;
@@ -21,19 +21,23 @@ const initialState = {
 
 export const lists = (state: ProjectState = initialState, action: ProjectAction): ProjectState => {
   switch (action.type) {
-  case REQUEST_LISTS:
-    return Object.assign({}, state, {
-      isFetching: true,
-      projectId: action.projectId,
-    });
-  case RECEIVE_LISTS:
-    return Object.assign({}, state, {
-      isFetching: false,
-      projectId: action.projectId,
-      items: action.lists
-    });
-  default:
-    return state;
+    case SORT_LISTS:
+      return Object.assign({}, state, {
+        items: action.lists
+      });
+    case REQUEST_LISTS:
+      return Object.assign({}, state, {
+        isFetching: true,
+        projectId: action.projectId,
+      });
+    case RECEIVE_LISTS:
+      return Object.assign({}, state, {
+        isFetching: false,
+        projectId: action.projectId,
+        items: action.lists
+      });
+    default:
+      return state;
   }
 };
 

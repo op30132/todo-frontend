@@ -23,8 +23,9 @@ export interface Project {
 export interface List {
   id: string;
   title?: string;
-  project?: string;
+  projectId?: string;
   creator?: string;
+  pos?: number;
 }
 
 export interface Todo {
@@ -35,5 +36,6 @@ export interface Todo {
   isImportant?: boolean;
   creator?: UserProfile;
   dueDate?: Date;
-
+  listId?: string;
+  pos?: number;
 }

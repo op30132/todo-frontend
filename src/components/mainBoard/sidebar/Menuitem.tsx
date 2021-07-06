@@ -1,14 +1,14 @@
 import React, { ReactNode } from "react";
 import { useState } from "react";
-import { MdKeyboardArrowDown } from "react-icons/md";
+import { MdKeyboardArrowDown, MdKeyboardArrowRight } from "react-icons/md";
 
 interface IProp {
   label: string;
   leftIcon: ReactNode;
-  dropList? :ReactNode;
+  dropList?: ReactNode;
 }
 
-const Menuitem: React.FC<IProp> = ({leftIcon, label, dropList}) => {
+const Menuitem: React.FC<IProp> = ({ leftIcon, label, dropList }) => {
   const [isOpen, setOpen] = useState(true);
   const openHandler = () => {
     setOpen(current => !current);
@@ -24,11 +24,13 @@ const Menuitem: React.FC<IProp> = ({leftIcon, label, dropList}) => {
             </span>
             <span className="ml-4">{label}</span>
           </div>
-          {dropList!== undefined ? <MdKeyboardArrowDown/> : null}
+          {dropList !== undefined ? (isOpen ? <MdKeyboardArrowDown /> : <MdKeyboardArrowRight />) : null}
         </div>
       </li>
-      <div className={"overflow-hidden transition-all " +(isOpen ? "h-auto" : "h-0")}>
-        {dropList}
+      <div className={"overflow-hidden transition-all " + (isOpen ? "h-auto" : "h-0")}>
+        <div className="pl-4">
+          {dropList}
+        </div>
       </div>
     </>
   );

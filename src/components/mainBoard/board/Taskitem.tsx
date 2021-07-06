@@ -1,66 +1,57 @@
 import React, { useState } from "react";
 import { List, Todo } from "../../../shared/model";
-import { FiPlusSquare } from "react-icons/fi";
-import InsertTaskModal from "../../modal/InsertTaskModal";
-import useApi from "../../../hook/UseAxios";
-import { insertTodo, getTodosbyListId } from "../../../service/todoService";
-import TodoItem from "./TodoItem";
+import { MdMoreHoriz } from "react-icons/md";
+import { updateList } from "../../../service/listService";
+import { useDispatch } from "react-redux";
+import { fetchLists } from "../../../store/project/projectAction";
+import { Draggable } from "react-beautiful-dnd";
+import TodoList from "./TodoList";
 
 interface IProps {
   list: List;
 }
 
 const Taskitem: React.FC<IProps> = ({ list }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState({});
-  const [todos, error, isLoading, refetch] = useApi<Todo[]>(getTodosbyListId(list.id));
+  const [isEdit, setIsEdit] = useState(false);
+  const dispatch = useDispatch();
 
-  const onHide = () => {
-    setIsOpen(false);
+  const editListTitle = () => {
+    setIsEdit(true);
   };
-  const openModal = () => {
-    setIsOpen(true);
+  const updateListName = (title: string) => {
+    if (title === list.title) {
+      setIsEdit(false);
+      return;
+    }
+    updateList(list.id || "", { ...list, title }).then(() => {
+      setIsEdit(false);
+      dispatch(fetchLists(list.projectId || ""));
+    });
   };
-  const openModalWithItem = (todo?: Todo) => {
-    openModal();
-    setCurrentItem(todo || {});
-  };
-  const onCompleted = (todo: Todo) => {
-    console.log(todo.isComplete);
-  };
-  const insertTask = (todo: Todo) => {
-    const data = {...todo, listId: list.id};
-    insertTodo(data).then(() => {
-      onHide();
-      refetch(true);
-    }).catch(console.log);
-  };
-  if(isLoading) return <div>loading</div>;
-  if(error) return <div>Something wrong</div>;
   return (
-    <>
-      <div className="p-2 w-full md:w-1/2 lg:w-1/4">
-        <div className="px-4 py-2 bg-beige rounded-lg shadow">
-          <div className="text-purple font-bold mb-1">{list.title}</div>
-          <ul>
-            {
-              todos && todos.map((todo: Todo) => {
-                return (
-                  <TodoItem key={todo.id} todo={todo} clickEvent={openModalWithItem} onCompleted={onCompleted} />
-                );
-              })
-            }
-            <div onClick={() => openModalWithItem()} className="taskitem flex items-center border border-beige-dark border-opacity-80 p-1 cursor-pointer">
-              <div className="flex items-center m-auto">
-                <FiPlusSquare />
-                <span className="ml-2">Add a task</span>
+    <Draggable draggableId={list.id} index={list.pos || 0}>
+      {provided => (
+        <div
+          className="p-2 w-80 inline-block align-top h-full"
+          {...provided.draggableProps}
+          ref={provided.innerRef}
+        >
+          <div className="">
+            <div className="px-4 py-2 bg-beige rounded-lg shadow">
+              <div className="flex justify-between items-center" onClick={editListTitle} {...provided.dragHandleProps}>
+                {isEdit ? (
+                  <input type="text" autoFocus defaultValue={list.title} onBlur={e => updateListName(e.target.value)} onKeyPress={e => (e.key === "Enter" ? updateListName((e.target as HTMLInputElement).value) : "")} />
+                ) : (
+                  <span className="p-2 text-purple font-bold">{list.title}</span>
+                )}
+                <MdMoreHoriz size={24} />
               </div>
+              <TodoList list={list} />
             </div>
-          </ul>
+          </div>
         </div>
-      </div>
-      <InsertTaskModal isOpen={isOpen} onHide={onHide} onSubmit={insertTask} todoItem={currentItem}></InsertTaskModal>
-    </>
+      )}
+    </Draggable>
   );
 };
 

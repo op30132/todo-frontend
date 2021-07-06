@@ -5,9 +5,9 @@ import Sidebar from "./sidebar/Sidebar";
 const MainBoard: React.FC = () => {
   return (
     <div className="flex h-screen antialiased text-gray-dark">
-      <Sidebar/>
-      <div className="flex flex-col flex-1 min-h-screen overflow-x-hidden overflow-y-auto">
-        <Board/>
+      <Sidebar />
+      <div className="flex flex-col flex-1 min-h-screen">
+        <Board />
       </div>
     </div>
   );

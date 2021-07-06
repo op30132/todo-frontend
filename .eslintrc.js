@@ -22,9 +22,9 @@ module.exports = {
     "@typescript-eslint"
   ],
   "rules": {
-    "quotes": ["error","double"],
-    "semi": ["error","always"],
-    "indent": ["error", 2],
+    "quotes": ["error", "double"],
+    "semi": ["error", "always"],
+    // "indent": ["error", 2],
     "react/prop-types": ["off"]
   }
 };

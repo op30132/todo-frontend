@@ -17,19 +17,18 @@ const UserBar: React.FC = () => {
   };
   return (
     <>
-      <div className="flex justify-between items-center px-2 relative">
-        <h1 className="font-bold text-2xl cursor-pointer" onClick={() => setOpen(!isOpen)}>{username}</h1>
+      <div className="flex justify-between items-center px-2">
+        <h1 className="font-bold text-2xl cursor-pointer">{username}</h1>
         <div className="flex items-center space-x-2 cursor-pointer">
-          <FaRegBell className="text-xl "/>
-          <BiCog className="text-2xl "/>
-        </div>
-        {
-          isOpen && (
-            <div className="absolute bg-beige rounded-sm p-2 inset-0 transform translate-y-10 cursor-pointer" onClick={logout}>
-            logout
+          <FaRegBell className="text-xl " />
+          <div className="relative whitespace-nowrap cursor-pointer">
+            <BiCog className="text-2xl" onClick={() => setOpen(!isOpen)} />
+            <div className={(isOpen ? "static" : "hidden") + " absolute bg-beige rounded-sm p-2 top-0 right-0 bottom-auto left-auto transform translate-y-8"} onClick={logout}>
+              <span className="text-purple font-bold">logout</span>
             </div>
-          )
-        }
+          </div>
+        </div>
+
       </div>
     </>
   );

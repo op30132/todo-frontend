@@ -20,6 +20,7 @@
     "install": "^0.13.0",
     "npm": "^7.9.0",
     "react": "^17.0.2",
+    "react-beautiful-dnd": "^13.1.0",
     "react-datepicker": "^4.1.1",
     "react-dom": "^17.0.2",
     "react-icons": "^4.2.0",
@@ -60,6 +61,7 @@
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.0.3",
     "@tailwindcss/postcss7-compat": "^2.1.0",
+    "@types/react-beautiful-dnd": "^13.1.0",
     "@types/react-datepicker": "^3.1.8",
     "@types/react-router-dom": "^5.1.7",
     "@typescript-eslint/eslint-plugin": "^4.21.0",
@@ -70,5 +72,5 @@
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.0"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://localhost:3001/"
 }

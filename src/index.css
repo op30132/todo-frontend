@@ -8,7 +8,7 @@
     @apply p-2 rounded-sm text-base cursor-pointer font-extrabold;
   }
   .taskitem {
-    @apply mb-3 p-3 w-full rounded-md;
+    @apply p-3 w-full rounded-md;
   }
   .overlay {
     @apply fixed top-0 left-0 overflow-auto h-screen w-screen bg-black bg-opacity-30
