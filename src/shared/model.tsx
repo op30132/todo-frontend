@@ -22,10 +22,10 @@ export interface Project {
 
 export interface List {
   id: string;
-  title?: string;
-  projectId?: string;
+  title: string;
+  projectId: string;
   creator?: string;
-  pos?: number;
+  pos: number;
 }
 
 export interface Todo {

@@ -27,11 +27,7 @@ const Login: React.FC = () => {
         history.push("/home");
       }
     }).catch(err => {
-      if (err.response.status === 401) {
-        alert(err.response.data.message);
-        return null;
-      }
-      alert("something wrong! Please try again!");
+      alert(err.response.status === 401 ? err.response.data.message : "something wrong! Please try again!");
       return null;
     }).finally(() => {
       setSubmitting(false);

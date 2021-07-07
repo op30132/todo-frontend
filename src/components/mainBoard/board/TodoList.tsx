@@ -59,9 +59,9 @@ const TodoList: React.FC<IProps> = ({ list }) => {
             {...provided.droppableProps}
           >
             {
-              todos && todos.map((item: Todo) => {
+              todos && todos.map((item: Todo, index: number) => {
                 return (
-                  <TodoItem key={item.id} todo={item} clickEvent={openModalWithItem} onCompleted={onCompleted} />
+                  <TodoItem key={item.id} todo={item} index={index} clickEvent={openModalWithItem} onCompleted={onCompleted} />
                 );
               })
             }

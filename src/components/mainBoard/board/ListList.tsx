@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { insertList, updateList } from "../../../service/listService";
-import { fetchLists, sortLists } from "../../../store/project/projectAction";
+import { fetchLists, sortLists } from "../../../store/list/listAction";
 import { RootState } from "../../../store/rootReducer";
 import Taskitem from "./Taskitem";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
@@ -27,21 +27,19 @@ const ListList: React.FC = () => {
       dispatch(fetchLists(lists.projectId));
     });
   };
-  const calcPos = (dIndex: number, list: List[]): number => {
-    const dItemIndex = list.findIndex(el => el.pos === dIndex);
-    const dItem = list.find(el => el.pos === dIndex);
-
-    if (dItemIndex === (list.length - 1)) {
-      return (dItem?.pos || 0) + 65535;
+  const calcPos = (sIndex:number, dIndex: number, list: List[]): number => {
+    if (dIndex === (list.length - 1)) {
+      return (list[dIndex].pos || 0) + 65535;
     }
-    return (dIndex + (list[dItemIndex + 1].pos || 0)) / 2;
+    if (dIndex === 0) {
+      return Math.round((list[0].pos || 0)/2);
+    }
+    if(sIndex<dIndex) {
+      return Math.round((list[dIndex].pos + (list[dIndex + 1].pos || 0)) / 2);
+    }
+    return Math.round((list[dIndex].pos + (list[dIndex - 1].pos || 0)) / 2);
   };
-  const reorder = (startIndex: number, endIndex: number, list: List[]) => {
-    const result = Array.from(list);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
+
   const onDragEnd = (result: DropResult) => {
     const { source, destination, draggableId } = result;
     if (!destination) {
@@ -49,11 +47,14 @@ const ListList: React.FC = () => {
     }
     if (result.type === "column") {
       // sort list
-      const pos = calcPos(destination.index, lists.items);
-      updateList(draggableId, { pos, projectId: lists.projectId }).then(() => {
-        dispatch(sortLists(draggableId, pos));
-      });
-
+      if(source.index===destination.index){
+        return;
+      }
+      const targetPos = calcPos(source.index, destination.index, lists.items);
+      const data = { pos: targetPos, projectId: lists.projectId };
+      dispatch(sortLists({listId: draggableId, pos: targetPos} ));
+      // TODO: if error, back to original state 
+      updateList(draggableId, data);
       return;
     }
     // list source and destination
@@ -61,15 +62,16 @@ const ListList: React.FC = () => {
     const dInd = +destination.droppableId;
     if (sInd === dInd) {
       // sort todos in same list
+
       console.log(source.index);
       console.log(destination.index);
-      // target list id
+      // target item id
       console.log(draggableId);
     } else {
       // sort todos in different list
       console.log(source.index);
       console.log(destination.index);
-      // target list id
+      // target item id
       console.log(draggableId);
     }
   };
@@ -88,8 +90,8 @@ const ListList: React.FC = () => {
               {...provided.droppableProps}
             >
               {
-                lists && lists.items.map((item) => (
-                  <Taskitem list={item} key={item.id} />
+                lists && lists.items.map((item, index) => (
+                  <Taskitem list={item} key={item.id} index={index}/>
                 ))
               }
               {provided.placeholder}

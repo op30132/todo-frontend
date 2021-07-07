@@ -8,7 +8,7 @@ import { getCoworkerProjects, getProjects } from "../../../service/projectServic
 import { Project } from "../../../shared/model";
 import useApi from "../../../hook/UseAxios";
 import { useDispatch } from "react-redux";
-import { fetchLists } from "../../../store/project/projectAction";
+import { fetchLists } from "../../../store/list/listAction";
 
 
 const Menu: React.FC = () => {

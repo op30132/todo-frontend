@@ -17,7 +17,7 @@ const initialState = {
   userProfile: null as (null | UserProfile)
 };
 
-export const user = (state: UserState = initialState, action: UserAction): UserState => {
+export const userReducer = (state: UserState = initialState, action: UserAction): UserState => {
   switch (action.type) {
   case PROFILE_REQUEST:
     return {

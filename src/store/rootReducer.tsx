@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import { lists } from "./project/projectReducer";
-import { user } from "./user/userReducer";
+import { listReducer } from "./list/listReducer";
+import { userReducer } from "./user/userReducer";
 
 export const rootReducer = combineReducers({
-  lists,
-  user
+  lists: listReducer,
+  user: userReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>

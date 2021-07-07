@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { List, Todo } from "../../../shared/model";
+import { List } from "../../../shared/model";
 import { MdMoreHoriz } from "react-icons/md";
 import { updateList } from "../../../service/listService";
 import { useDispatch } from "react-redux";
-import { fetchLists } from "../../../store/project/projectAction";
+import { fetchLists } from "../../../store/list/listAction";
 import { Draggable } from "react-beautiful-dnd";
 import TodoList from "./TodoList";
 
 interface IProps {
   list: List;
+  index: number
 }
 
-const Taskitem: React.FC<IProps> = ({ list }) => {
+const Taskitem: React.FC<IProps> = ({ list, index }) => {
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ const Taskitem: React.FC<IProps> = ({ list }) => {
     });
   };
   return (
-    <Draggable draggableId={list.id} index={list.pos || 0}>
+    <Draggable draggableId={list.id} index={index}>
       {provided => (
         <div
           className="p-2 w-80 inline-block align-top h-full"
@@ -44,7 +45,7 @@ const Taskitem: React.FC<IProps> = ({ list }) => {
                 ) : (
                   <span className="p-2 text-purple font-bold">{list.title}</span>
                 )}
-                <MdMoreHoriz size={24} />
+                <MdMoreHoriz size={24}/>
               </div>
               <TodoList list={list} />
             </div>

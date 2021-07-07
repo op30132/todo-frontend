@@ -7,13 +7,14 @@ import { Todo } from "../../../shared/model";
 
 interface IProps {
   todo: Todo;
+  index: number;
   clickEvent: (todo: Todo) => void;
   onCompleted: (todo: Todo) => void;
 }
 
-const TodoItem: React.FC<IProps> = ({ todo, clickEvent, onCompleted }) => {
+const TodoItem: React.FC<IProps> = ({ todo, index, clickEvent, onCompleted }) => {
   return (
-    <Draggable draggableId={todo.id || ""} index={todo.pos || 0}>
+    <Draggable draggableId={todo.id || ""} index={index}>
       {provided => (
         <div
           className="mb-3"
