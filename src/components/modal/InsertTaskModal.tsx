@@ -1,17 +1,17 @@
-import { Formik, FormikHelpers, Form, Field } from "formik";
+import { Formik, Form, Field } from "formik";
 import React from "react";
 import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
 import DatePicker from "react-datepicker";
-import { Todo } from "../../shared/model";
+import { TodoDTO } from "../../shared/model";
 import dayjs from "dayjs";
 
 interface IProps {
   initialState?: Record<string, unknown>;
   isOpen: boolean;
   onHide: () => void;
-  todoItem?: Todo | null;
-  onSubmit: (values: Todo) => void;
+  todoItem: TodoDTO;
+  onSubmit: (values: TodoDTO) => void;
 }
 
 const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit }) => {
@@ -32,9 +32,9 @@ const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit 
           title: todoItem?.title || "",
           content: todoItem?.content || "",
           dueDate: todoItem?.dueDate || new Date(),
-        }}
+        } as TodoDTO}
         onSubmit={(
-          values: Todo
+          values: TodoDTO
         ) => {
           onSubmit(values);
         }}>

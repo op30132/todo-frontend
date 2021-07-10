@@ -17,7 +17,7 @@ const TodoItem: React.FC<IProps> = ({ todo, index, clickEvent, onCompleted }) =>
     <Draggable draggableId={todo.id || ""} index={index}>
       {provided => (
         <div
-          className="mb-3"
+          className="mb-2"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
@@ -41,4 +41,4 @@ const TodoItem: React.FC<IProps> = ({ todo, index, clickEvent, onCompleted }) =>
   );
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);

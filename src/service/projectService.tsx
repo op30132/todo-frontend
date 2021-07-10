@@ -1,11 +1,11 @@
-import { AxiosResponse } from "axios";
 import { Project } from "../shared/model";
 import axiosInstance from "../shared/interceptor";
 
-export function getProjects(): Promise<AxiosResponse<Project[]>>{
-  return axiosInstance.get("api/project/myProjects");
+export function getProjects(): Promise<Project[]>{
+  return axiosInstance.get("api/project/myProjects").then(res => res.data);
 }
 
-export function getCoworkerProjects(): Promise<AxiosResponse<Project[]>> {
-  return axiosInstance.get("api/project/coworkerProjects");
+export function getCoworkerProjects(): Promise<Project[]> {
+  return axiosInstance.get("api/project/coworkerProjects").then(res => res.data);
 }
+

@@ -20,15 +20,22 @@ export interface Project {
   createdAt?: Date;
 }
 
+export interface ListDTO {
+  id?: string;
+  title?: string;
+  projectId?: string;
+  creator?: string;
+  pos?: number;
+}
 export interface List {
   id: string;
   title: string;
   projectId: string;
-  creator?: string;
+  creator: string;
   pos: number;
+  todos: Todo[];
 }
-
-export interface Todo {
+export interface TodoDTO {
   id?: string;
   title?: string;
   content?: string;
@@ -38,4 +45,15 @@ export interface Todo {
   dueDate?: Date;
   listId?: string;
   pos?: number;
+}
+export interface Todo {
+  id: string;
+  title: string;
+  content: string;
+  isComplete: boolean;
+  isImportant: boolean;
+  creator: UserProfile;
+  dueDate: Date;
+  listId: string;
+  pos: number;
 }

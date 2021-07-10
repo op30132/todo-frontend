@@ -6,9 +6,10 @@ interface IProp {
   label: string;
   leftIcon: ReactNode;
   dropList?: ReactNode;
+  isActive?: boolean;
 }
 
-const Menuitem: React.FC<IProp> = ({ leftIcon, label, dropList }) => {
+const Menuitem: React.FC<IProp> = ({ leftIcon, label, dropList, isActive=false}) => {
   const [isOpen, setOpen] = useState(true);
   const openHandler = () => {
     setOpen(current => !current);
@@ -17,9 +18,9 @@ const Menuitem: React.FC<IProp> = ({ leftIcon, label, dropList }) => {
   return (
     <>
       <li className="group menuitem hover:bg-beige font-extrabold" onClick={openHandler}>
-        <div className="flex items-center justify-between text-dark group-hover:text-purple-light">
+        <div className={"flex items-center justify-between group-hover:text-purple-light "+(isActive?"text-purple-light":"text-dark")}>
           <div className="flex">
-            <span className="text-xl text-beige-dark group-hover:text-purple-light">
+            <span className={"text-xl group-hover:text-purple-light "+(isActive?"text-purple-light":"text-beige-dark")}>
               {leftIcon}
             </span>
             <span className="ml-4">{label}</span>

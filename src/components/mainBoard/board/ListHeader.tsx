@@ -5,7 +5,7 @@ const ListHeader: React.FC = () => {
   const board = dayjs().format("dddd D, MMMM");
 
   return (
-    <div className="flex justify-between mb-10">
+    <div className="flex justify-between mb-1 mt-8 mx-4 ">
       <h2 className="text-purple text-3xl font-black">{board}</h2>
     </div>
   );

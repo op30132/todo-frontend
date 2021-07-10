@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { FiPlusSquare } from "react-icons/fi";
-import useApi from "../../../hook/UseAxios";
-import { getTodosByListId, insertTodo, updateTodo } from "../../../service/todoService";
-import { List, Todo } from "../../../shared/model";
+import { useDispatch, useSelector } from "react-redux";
+import { List, Todo, TodoDTO } from "../../../shared/model";
+import { getTodosByListId, RootState } from "../../../store/rootReducer";
+import { fetchInsertTodo, fetchUpdateTodo, TodoDispatch } from "../../../store/todo/todoAction";
 import InsertTaskModal from "../../modal/InsertTaskModal";
 import TodoItem from "./TodoItem";
 interface IProps {
@@ -11,23 +12,24 @@ interface IProps {
 }
 const TodoList: React.FC<IProps> = ({ list }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState({});
-  const [todos, error, isLoading, refetch] = useApi<Todo[]>(getTodosByListId(list.id));
+  const [currentItem, setCurrentItem] = useState<TodoDTO>({});
+  const todos = useSelector((state: RootState) => getTodosByListId(state, list.id));
+  const dispatch = useDispatch<TodoDispatch>();
   const onHide = () => {
     setIsOpen(false);
   };
   const openModal = () => {
     setIsOpen(true);
   };
-  const openModalWithItem = (todo?: Todo) => {
+  const openModalWithItem = useCallback((todo?: TodoDTO) => {
     openModal();
     setCurrentItem(todo || {});
-  };
-  const onCompleted = (todo: Todo) => {
+  }, []);
+  const onCompleted = useCallback((todo: Todo) => {
     todo.isComplete = !todo.isComplete;
     updateTask(todo);
-  };
-  const insertTask = (todo: Todo) => {
+  }, []);
+  const insertTask = (todo: TodoDTO) => {
     let pos = 65535;
     if (todos && todos.length > 0) {
       pos += todos[todos.length - 1].pos || 0;
@@ -37,47 +39,47 @@ const TodoList: React.FC<IProps> = ({ list }) => {
       listId: list.id,
       pos
     };
-    insertTodo(data).then(handleSuccess);
+
+    dispatch(fetchInsertTodo(data)).then(() => onHide());
   };
-  const handleSuccess = () => {
-    onHide();
-    refetch({});
-  };
-  const updateTask = (todo: Todo) => {
+  const updateTask = (todo: TodoDTO) => {
     const data = { ...currentItem, ...todo };
-    updateTodo(data).then(handleSuccess);
+    dispatch(fetchUpdateTodo(data.id||"", data)).then(() => onHide());
   };
-  if (isLoading) return <div>loading</div>;
-  if (error) return <div>Something wrong</div>;
+
   return (
-    <Droppable droppableId={list.id}
-    >
-      {(provided, snapshot) => {
-        return (
-          <div
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {
-              todos && todos.map((item: Todo, index: number) => {
-                return (
-                  <TodoItem key={item.id} todo={item} index={index} clickEvent={openModalWithItem} onCompleted={onCompleted} />
-                );
-              })
-            }
-            {provided.placeholder}
-            <div onClick={() => openModalWithItem()} className="taskitem flex items-center border border-beige-dark border-opacity-80 p-1 cursor-pointer">
-              <div className="flex items-center m-auto">
-                <FiPlusSquare />
-                <span className="ml-2">Add a task</span>
-              </div>
-            </div>
-            <InsertTaskModal isOpen={isOpen} onHide={onHide} onSubmit={"id" in currentItem ? updateTask : insertTask} todoItem={currentItem}></InsertTaskModal>
-          </div>
-        );
-      }}
-    </Droppable>
+    <>
+      <div className="flex-grow overflow-y-auto min-h-0 px-3">
+      <Droppable droppableId={list.id}
+      >
+        {(provided) => {
+          return (
+            <div
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {
+                todos && todos.map((item: Todo, index: number) => {
+                  return (
+                    <TodoItem key={item.id} todo={item} index={index} clickEvent={openModalWithItem} onCompleted={onCompleted} />
+                  );
+                })
+              }
+              {provided.placeholder}
+             </div>
+          );
+        }}
+      </Droppable>
+    </div>
+    <div onClick={() => openModalWithItem()} className="flex items-center border-beige-dark pb-2 px-3">
+     <div className="flex items-center cursor-pointer hover:bg-beige-darker w-full p-2 rounded-md">  
+       <FiPlusSquare />
+       <span className="ml-2">Add a task</span>
+     </div>
+   </div>
+   <InsertTaskModal isOpen={isOpen} onHide={onHide} onSubmit={"id" in currentItem ? updateTask : insertTask} todoItem={currentItem}></InsertTaskModal>
+  </>
   );
 };
 
-export default TodoList;
+export default React.memo(TodoList);
