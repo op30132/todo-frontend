@@ -17,7 +17,6 @@ const ListHeader: React.FC = () => {
   const inviteCoworker = () => {
     console.log();
   };
-  console.log(currentProject?.coworker);
   return (
     <div className="mb-1 mt-6 mx-4 ">
       <h2 className="text-purple text-3xl font-black">{time}</h2>
