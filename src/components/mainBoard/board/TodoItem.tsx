@@ -1,8 +1,7 @@
 import dayjs from "dayjs";
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { FiCheckCircle } from "react-icons/fi";
-import { RiCheckboxBlankCircleLine } from "react-icons/ri";
+import { MdCheckBox, MdCheckBoxOutlineBlank } from "react-icons/md";
 import { Todo } from "../../../shared/model";
 
 interface IProps {
@@ -17,28 +16,27 @@ const TodoItem: React.FC<IProps> = ({ todo, index, clickEvent, onCompleted }) =>
     <Draggable draggableId={todo.id || ""} index={index}>
       {provided => (
         <div
-          className="mb-3"
+          className="mb-2"
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
         >
           <div className="taskitem bg-white shadow cursor-pointer" onClick={() => clickEvent(todo)}>
             <div className="flex items-start ">
-              <div className="mr-4 mt-1" onClick={(e) => { e.stopPropagation(); onCompleted(todo); }}>
+              <div className="mr-2" onClick={(e) => { e.stopPropagation(); onCompleted(todo); }}>
                 {todo.isComplete ?
-                  <FiCheckCircle className="text-purple text-lg" /> :
-                  <RiCheckboxBlankCircleLine className="text-gray text-xl" />}
+                  <MdCheckBox size={24} className="text-purple" /> :
+                  <MdCheckBoxOutlineBlank size={24} className="text-gray" />}
               </div>
               <span className="text-gray-dark font-semibold">{todo.title}</span>
             </div>
             <span className="ml-8 text-beige-dark text-base">{dayjs(todo.dueDate).format("M/D h:mm a")}</span>
           </div>
         </div>
-
       )}
     </Draggable>
 
   );
 };
 
-export default TodoItem;
+export default React.memo(TodoItem);

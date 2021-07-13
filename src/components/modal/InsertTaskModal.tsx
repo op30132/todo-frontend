@@ -1,20 +1,21 @@
-import { Formik, FormikHelpers, Form, Field } from "formik";
+import { Formik, Form, Field } from "formik";
 import React from "react";
 import Modal from "react-modal";
-import { IoClose } from "react-icons/io5";
 import DatePicker from "react-datepicker";
-import { Todo } from "../../shared/model";
+import { TodoDTO } from "../../shared/model";
 import dayjs from "dayjs";
+import { MdClear } from "react-icons/md";
 
 interface IProps {
-  initialState?: Record<string, unknown>;
   isOpen: boolean;
   onHide: () => void;
-  todoItem?: Todo | null;
-  onSubmit: (values: Todo) => void;
+  todoItem: TodoDTO | null;
+  onSubmit: (values: TodoDTO) => void;
+  deleteItem: () => void
 }
 
-const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit }) => {
+const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit, deleteItem }) => {
+  const isEdit = !!todoItem;
   return (
     <Modal
       className="modal modal-sm"
@@ -24,17 +25,17 @@ const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit 
       shouldReturnFocusAfterClose={false}
     >
       <div className="modal-header">
-        <h3 className="text-xl font-black">add Task</h3>
-        <div className="close" onClick={onHide}><IoClose /></div>
+        <h3 className="text-xl font-black">{isEdit? "Edit Task":"Add Task"}</h3>
+        <div className="close" onClick={onHide}><MdClear /></div>
       </div>
       <Formik
         initialValues={{
           title: todoItem?.title || "",
           content: todoItem?.content || "",
           dueDate: todoItem?.dueDate || new Date(),
-        }}
+        } as TodoDTO}
         onSubmit={(
-          values: Todo
+          values: TodoDTO
         ) => {
           onSubmit(values);
         }}>
@@ -63,6 +64,9 @@ const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit 
               </div>
             </div>
             <div className="modal-footer">
+              {
+                isEdit && <button type="button" className="btn btn-red mr-2" onClick={deleteItem}>delete</button>
+              }
               <button type="submit" className="btn btn-purple" disabled={isSubmitting}>Submit</button>
             </div>
           </Form>

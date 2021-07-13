@@ -4,23 +4,25 @@ import { AiTwotoneCalendar } from "react-icons/ai";
 import { MdAssessment } from "react-icons/md";
 import { HiFolder } from "react-icons/hi";
 import { BiArchiveIn } from "react-icons/bi";
-import { getCoworkerProjects, getProjects } from "../../../service/projectService";
-import { Project } from "../../../shared/model";
-import useApi from "../../../hook/UseAxios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchLists } from "../../../store/list/listAction";
+import { RootState } from "../../../store/rootReducer";
+import { fetchProjects } from "../../../store/project/projectAction";
 
 
 const Menu: React.FC = () => {
-  const [projects, error, isLoading] = useApi<Project[]>(getProjects);
-  const [guest, gerror, gisLoading] = useApi<Project[]>(getCoworkerProjects);
+  const project = useSelector((state: RootState) => state.projects);
+  const curProjectId = useSelector((state: RootState) => state.lists.curProject.projectId);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (projects && projects.length > 0) {
-      dispatch(fetchLists(projects[0].id));
+    if(!project.isFetched) {
+      dispatch(fetchProjects());
     }
-  }, [projects]);
+    if (project.myProjects && project.myProjects.length > 0) {
+      dispatch(fetchLists(project.myProjects[0].id));
+    }
+  }, [project.myProjects]);
 
 
   return (
@@ -30,12 +32,11 @@ const Menu: React.FC = () => {
         <Menuitem leftIcon={<AiTwotoneCalendar />} label={"Calendar"} />
         <Menuitem leftIcon={<HiFolder />} label={"Project"} dropList={
           <>
-            {isLoading && <p>Loading data...</p>}
-            {error && <p>An error occurred</p>}
+            {project.isFetching && <p>Loading data...</p>}
             {
-              projects && projects.map(el => (
+              project.myProjects && project.myProjects.map(el => (
                 <div key={el.id} onClick={() => dispatch(fetchLists(el.id))}>
-                  <Menuitem leftIcon={<MdAssessment />} label={el.name || ""} />
+                  <Menuitem leftIcon={<MdAssessment />} label={el.name || ""} isActive={el.id===curProjectId} />
                 </div>
               ))
             }
@@ -43,10 +44,9 @@ const Menu: React.FC = () => {
         } />
         <Menuitem leftIcon={<HiFolder />} label={"Guest Project"} dropList={
           <>
-            {gisLoading && <p>Loading data...</p>}
-            {gerror && <p>An error occurred</p>}
+            {project.isFetching && <p>Loading data...</p>}
             {
-              guest && guest.map(el => (
+              project.coworkerProjects && project.coworkerProjects.map(el => (
                 <div key={el.id} onClick={() => dispatch(fetchLists(el.id))}>
                   <Menuitem leftIcon={<MdAssessment />} label={el.name || ""} />
                 </div>

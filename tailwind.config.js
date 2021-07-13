@@ -35,7 +35,8 @@ module.exports = {
       beige: {
         light: "#F7F7FA",
         DEFAULT: "#F1F1F5",
-        dark: "#B2AEC2"
+        darker: "#e1e1e8",
+        dark: "#B2AEC2",
       }
     },
     minWidth: {
