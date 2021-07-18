@@ -12,7 +12,7 @@ interface IProps {
 }
 const TodoList: React.FC<IProps> = ({ list }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentItem, setCurrentItem] = useState<TodoDTO|null>({});
+  const [currentItem, setCurrentItem] = useState<Todo|null>(null);
   const todos = useSelector((state: RootState) => getTodosByListId(state, list.id));
   const dispatch = useDispatch<TodoDispatch>();
   const onHide = () => {
@@ -21,7 +21,7 @@ const TodoList: React.FC<IProps> = ({ list }) => {
   const openModal = () => {
     setIsOpen(true);
   };
-  const openModalWithItem = useCallback((todo?: TodoDTO) => {
+  const openModalWithItem = useCallback((todo?: Todo) => {
     openModal();
     setCurrentItem(todo || null);
   }, []);
@@ -42,11 +42,15 @@ const TodoList: React.FC<IProps> = ({ list }) => {
     dispatch(fetchInsertTodo(data)).then(() => onHide());
   };
   const deleteItem = () => {
-    dispatch(fetchdeleteTodo(list.id, currentItem?.id || "")).then(() => onHide());
+    if(currentItem && currentItem.id) {
+      dispatch(fetchdeleteTodo(list.id, currentItem.id)).then(() => onHide());
+    }
   };
   const updateTask = (todo: TodoDTO) => {
-    const data = { ...currentItem, ...todo };
-    dispatch(fetchUpdateTodo(data.id||"", data)).then(() => onHide());
+    if(currentItem){
+      const data:Todo = { ...currentItem, ...todo };
+      dispatch(fetchUpdateTodo(data.id, data)).then(() => onHide());
+    }
   };
 
   return (

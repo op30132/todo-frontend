@@ -2,6 +2,7 @@ import { Dispatch } from "react";
 import { ThunkDispatch } from "redux-thunk";
 import { deleteList, getListByProjectId, insertList, updateList } from "../../service/listService";
 import { List, ListDTO, Todo } from "../../shared/model";
+import { emitAddList, emitDeleteList, emitJoinProject, emitUpdateList } from "../../socket/socket";
 import { receiveTodoAction, receiveTodos } from "../todo/todoAction";
 import { listsState } from "./listReducer";
 
@@ -26,29 +27,38 @@ export const sortLists = (data: pos): sortListAction => ({
   type: ListActionTypes.SORT_LISTS,
   data,
 });
-const addList = (data: List): addListAction => ({
+export const addList = (data: List): addListAction => ({
   type: ListActionTypes.ADD_LIST,
   data
 });
-const editList = (listId: string, data: List): editListAction => ({
+export const editList = (listId: string, data: List): editListAction => ({
   type: ListActionTypes.EDIT_LIST,
   listId,
   data
 });
-const delList = (listId: string): deleteListAction => ({
+export const delList = (listId: string): deleteListAction => ({
   type: ListActionTypes.DELETE_LIST,
   listId
 });
 export const fetchInsertList = (data: ListDTO) => (dispatch: Dispatch<addListAction>): Promise<void> => {
-  return insertList(data).then(res => dispatch(addList(res)));
+  return insertList(data).then(res => {
+    dispatch(addList(res));
+    emitAddList(res);
+  });
 };
 export const fetchUpdateList = (listId: string, data: ListDTO) => (dispatch: Dispatch<editListAction>): Promise<void> => {
-  return updateList(listId, data).then(res => dispatch(editList(listId, res)));
+  return updateList(listId, data).then(res => {
+    dispatch(editList(listId, res));
+    emitUpdateList(res);
+  });
 };
 export const fetchdeleteList = (listId: string) => (dispatch: Dispatch<deleteListAction>): Promise<void> => {
-  return deleteList(listId).then(() => dispatch(delList(listId)));
+  return deleteList(listId).then(() => {
+    dispatch(delList(listId));
+    emitDeleteList(listId);
+  });
 };
-export const fetchLists = (projectId: string) => (dispatch: Dispatch<ProjectActions>): Promise<void> => {
+export const fetchLists = (projectId: string) => (dispatch: Dispatch<ListActions>): Promise<void> => {
   dispatch(requestLists(projectId));
   return getListByProjectId(projectId)
     .then(res => {
@@ -61,9 +71,10 @@ export const fetchLists = (projectId: string) => (dispatch: Dispatch<ProjectActi
       });
       dispatch(receiveTodos(todos));
       dispatch(receiveLists(projectId, arr));
+      emitJoinProject(projectId);
     });
 };
-export type ListDispatch = ThunkDispatch<listsState, void, ProjectActions>;
+export type ListDispatch = ThunkDispatch<listsState, void, ListActions>;
 interface IReduxBaseAction {
   type: ListActionTypes;
 }
@@ -97,4 +108,4 @@ interface pos {
   listId: string;
   pos: number;
 }
-export type ProjectActions = requestListAction|receiveListAction|sortListAction|addListAction|editListAction|deleteListAction|receiveTodoAction;
+export type ListActions = requestListAction|receiveListAction|sortListAction|addListAction|editListAction|deleteListAction|receiveTodoAction;

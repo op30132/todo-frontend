@@ -1,7 +1,8 @@
 import { Dispatch } from "react";
 import { ThunkDispatch } from "redux-thunk";
-import { deleteTodo, insertTodo, updateTodo } from "../../service/todoService";
+import { deleteTodo, insertTodo, todosByListId, updateTodo } from "../../service/todoService";
 import { Todo, TodoDTO } from "../../shared/model";
+import { emitChangeTodo } from "../../socket/socket";
 import { TodobyListIdState } from "./todoReducer";
 
 export enum TodoActionTypes {
@@ -12,11 +13,12 @@ export enum TodoActionTypes {
   ADD_TODO = "ADD_TODO",
   EDIT_TODO = "EDIT_TODO",
   DELETE_TODO = "DELETE_TODO",
+  GET_TODOS = "GET_TODOS",
 }
-// const requestTodos = (listId: string): requestTodoAction => ({
-//   type: TodoActionTypes.REQUEST_TODOS,
-//   listId,
-// });
+export const requestTodos = (listId: string): requestTodoAction => ({
+  type: TodoActionTypes.REQUEST_TODOS,
+  listId
+});
 export const receiveTodos = (data: {[key: string]: Todo[]}):receiveTodoAction => ({
   type: TodoActionTypes.RECEIVE_TODOS,
   data
@@ -28,6 +30,11 @@ export const sortTodosInSameList = (data: sameSort): sortSameTodoAction => ({
 export const sortTodosInDiffList = (data: diffSort): sortDiffTodoAction => ({
   type: TodoActionTypes.SORT_TODOS_DIFF,
   data,
+});
+const getTodosByListId = (listId: string, data: Todo[]): getTodosByIdAction => ({
+  type: TodoActionTypes.GET_TODOS,
+  listId,
+  data
 });
 const addTodo = (listId: string, data: Todo): addTodoAction => ({
   type: TodoActionTypes.ADD_TODO,
@@ -45,14 +52,28 @@ const delTodo = (listId: string, todoId: string): deleteTodoAction => ({
   listId,
   todoId
 });
+export const fetchTodosByListId = (listId: string) => (dispatch: Dispatch<getTodosByIdAction>): Promise<void> => {
+  return todosByListId(listId).then(res => {
+    dispatch(getTodosByListId(listId, res));
+  });
+};
 export const fetchInsertTodo = (data: TodoDTO) => (dispatch: Dispatch<addTodoAction>): Promise<void> => {
-  return insertTodo(data).then(res => dispatch(addTodo(res.listId, res)));
+  return insertTodo(data).then(res => {
+    dispatch(addTodo(res.listId, res));
+    emitChangeTodo(res.listId);
+  });
 };
 export const fetchUpdateTodo = (todoId: string, data: TodoDTO) => (dispatch: Dispatch<editTodoAction>): Promise<void> => {
-  return updateTodo(todoId, data).then(res => dispatch(editTodo(res.listId, todoId,res)));
+  return updateTodo(todoId, data).then(res => {
+    dispatch(editTodo(res.listId, todoId,res));
+    emitChangeTodo(res.listId);
+  });
 };
 export const fetchdeleteTodo = (listId: string, todoId: string) => (dispatch: Dispatch<deleteTodoAction>): Promise<void> => {
-  return deleteTodo(todoId).then(() => dispatch(delTodo(listId, todoId)));
+  return deleteTodo(todoId).then(() => {
+    dispatch(delTodo(listId, todoId));
+    emitChangeTodo(listId);
+  });
 };
 export type TodoDispatch = ThunkDispatch<TodobyListIdState, void, TodoActions>;
 interface IReduxBaseAction {
@@ -92,6 +113,11 @@ interface deleteTodoAction extends IReduxBaseAction {
   listId: string;
   todoId: string; 
 }
+interface getTodosByIdAction extends IReduxBaseAction {
+  type: TodoActionTypes.GET_TODOS;
+  listId: string;
+  data: Todo[]; 
+}
 interface sameSort {
   todoId: string;
   listId: string;
@@ -103,4 +129,4 @@ interface diffSort {
   dListId: string;
   pos: number;
 }
-export type TodoActions = requestTodoAction|receiveTodoAction|sortSameTodoAction|sortDiffTodoAction|addTodoAction|editTodoAction|deleteTodoAction;
+export type TodoActions = requestTodoAction|receiveTodoAction|sortSameTodoAction|sortDiffTodoAction|addTodoAction|editTodoAction|deleteTodoAction|getTodosByIdAction;

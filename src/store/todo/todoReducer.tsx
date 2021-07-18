@@ -58,7 +58,6 @@ export const listByProjectIdReducer = (state: TodobyListIdState={}, action: Todo
   case TodoActionTypes.ADD_TODO:
   case TodoActionTypes.EDIT_TODO:
   case TodoActionTypes.DELETE_TODO:{
-    console.log(state );
     return {
       ...state,
       [action.listId]: Todos(state[action.listId], action)
@@ -67,6 +66,11 @@ export const listByProjectIdReducer = (state: TodobyListIdState={}, action: Todo
   case TodoActionTypes.SORT_TODOS_SAME:
   case TodoActionTypes.SORT_TODOS_DIFF:
     return sortTodo(state, action);
+  case TodoActionTypes.GET_TODOS:
+    return {
+      ...state,
+      [action.listId]: action.data
+    };
   case TodoActionTypes.RECEIVE_TODOS:
     return {
       ...state, 

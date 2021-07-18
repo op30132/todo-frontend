@@ -4,7 +4,9 @@ import { List, ListDTO } from "../shared/model";
 export function getListByProjectId(projectId: string): Promise<List[]> {
   return axiosInstance.get(`api/list/all/${projectId}`).then(res => res.data);
 }
-
+export function getlistById(listId: string): Promise<List> {
+  return axiosInstance.get(`api/list/${listId}`).then(res => res.data);
+}
 export function insertList(data: ListDTO): Promise<List> {
   return axiosInstance.post("api/list/create", data).then(res => res.data);
 }

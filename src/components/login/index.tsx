@@ -47,7 +47,7 @@ const Login: React.FC = () => {
         {({ errors, touched, isSubmitting }) => (
           <Form>
             <div className="mb-4">
-              <Field id="email" name="email" placeholder="email" autoFocus />
+              <Field id="email" name="email" type="text" placeholder="email" autoFocus />
               {errors.email && touched.email ? <div className="text-red text-sm">{errors.email}</div> : null}
             </div>
             <div className="mb-4">

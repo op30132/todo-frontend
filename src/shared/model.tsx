@@ -1,5 +1,5 @@
 export interface UserProfile {
-  id: number;
+  id: string;
   username: string;
   email: string;
   createdAt?: string;
@@ -26,6 +26,7 @@ export interface Project {
   owner: string;
   coworker?: UserProfile[];
   createdAt: Date;
+  invitingUser?: UserProfile[];
 }
 export interface ListDTO {
   id?: string;

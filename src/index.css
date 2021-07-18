@@ -11,45 +11,51 @@
     @apply p-3 w-full rounded-md;
   }
   .overlay {
-    @apply fixed top-0 left-0 overflow-auto h-screen w-screen bg-black bg-opacity-30
+    @apply fixed top-0 left-0 overflow-auto h-screen w-screen bg-black bg-opacity-30;
   }
   .modal {
-    @apply m-auto mt-20 w-6/12 bg-white rounded-md border-0
+    @apply m-auto mt-20 w-6/12 bg-white rounded-md border-0;
   }
   .modal-sm {
-    @apply max-w-xl w-5/6
+    @apply max-w-xl w-5/6;
   }
   .close {
-    @apply p-2 cursor-pointer
+    @apply p-2 cursor-pointer;
   }
   .modal-header {
-    @apply flex justify-between px-6 py-3 border-b border-gray-light
+    @apply flex justify-between px-6 py-3 border-b border-gray-light;
   }
   .modal-content{
-    @apply px-8 py-4
+    @apply px-8 py-4;
   }
   .modal-footer {
-    @apply flex justify-end px-6 py-3 border-t border-gray-light
+    @apply flex justify-end px-6 py-3 border-t border-gray-light;
   }
   .btn {
-    @apply px-4 py-2 bg-white text-black rounded-md shadow-sm
+    @apply px-4 py-2 bg-white text-black rounded-md shadow-sm;
   }
   .btn:disabled{
     @apply cursor-not-allowed;
   }
   .btn-purple {
-    @apply bg-purple text-white
+    @apply bg-purple text-white;
   }
   .btn-red {
-    @apply bg-red text-white
+    @apply bg-red text-white;
+  }
+  .btn-purple-border {
+    @apply bg-transparent text-purple border-2 border-purple;
   }
   .btn-purple:enabled:hover {
-    @apply bg-purple-light
+    @apply bg-purple-light;
   }
   input, label{
     @apply p-2 w-full;
   }
   input, textarea {
-    @apply border-2 border-gray-light
+    @apply border-2 border-gray-light;
+  }
+  .avatar {
+    @apply bg-beige-dark text-white rounded-full mr-1 h-10 w-10 text-center leading-10 font-bold text-lg cursor-pointer;
   }
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { MdAdd, MdClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchInsertList, ListDispatch, sortLists } from "../../../store/list/listAction";
+import { fetchInsertList, fetchLists, ListDispatch, sortLists } from "../../../store/list/listAction";
 import { getListsSelector, RootState } from "../../../store/rootReducer";
 import Taskitem from "./Taskitem";
 import { DragDropContext, Droppable, DropResult } from "react-beautiful-dnd";
@@ -15,7 +15,7 @@ const ListList: React.FC = () => {
   const lists = useSelector(getListsSelector);
   const projectId = useSelector((state: RootState) => state.lists.curProject.projectId);
   const todos = useSelector((state: RootState) => state.todos);
-  const ListDispatch = useDispatch<ListDispatch>();
+  const listDispatch = useDispatch<ListDispatch>();
   const dispatch = useDispatch();
 
   const insertList = () => {
@@ -28,7 +28,7 @@ const ListList: React.FC = () => {
       title: listName,
       pos
     };
-    ListDispatch(fetchInsertList(data)).then(() => setIsEdit(false));
+    listDispatch(fetchInsertList(data)).then(() => setIsEdit(false));
   };
   const calcPos = (sIndex:number, dIndex: number, list: List[]|Todo[]): number => {
     const isDiff = sIndex===-1;
@@ -59,8 +59,7 @@ const ListList: React.FC = () => {
       const targetPos = calcPos(source.index, destination.index, lists);
       const data = { pos: targetPos, projectId: projectId };
       dispatch(sortLists({listId: draggableId, pos: targetPos} ));
-      // TODO: if error, back to original state 
-      updateList(draggableId, data);
+      updateList(draggableId, data).catch(() => listDispatch(fetchLists(projectId)));
       return;
     }
     // list source and destination

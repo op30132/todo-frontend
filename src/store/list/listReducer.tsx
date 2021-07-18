@@ -1,5 +1,5 @@
 import { List } from "../../shared/model";
-import { ListActionTypes, ProjectActions} from "./listAction";
+import { ListActionTypes, ListActions} from "./listAction";
 
 export interface ListbyProjectIdState {
   [projectId: string]: List[]
@@ -12,7 +12,7 @@ const initialCurProjectState= {
   isFetching: false,
   projectId: "",
 };
-const sortlist = (state: List[], action: ProjectActions): List[] => {
+const sortlist = (state: List[], action: ListActions): List[] => {
   switch (action.type) {
   case ListActionTypes.SORT_LISTS: {
     const list = Array.from(state);
@@ -26,8 +26,8 @@ const sortlist = (state: List[], action: ProjectActions): List[] => {
     return state;
   }
 }; 
-const curProjectReducer = (state: curProjectState = initialCurProjectState, action: ProjectActions) => {
-  switch (action.type) {
+const curProjectReducer = (state: curProjectState = initialCurProjectState, action: ListActions) => {
+  switch (action.type) {  
   case ListActionTypes.REQUEST_LISTS:
     return {
       isFetching: true,
@@ -42,13 +42,14 @@ const curProjectReducer = (state: curProjectState = initialCurProjectState, acti
     return state;
   }
 };
-const list = (state: List[]=[], action: ProjectActions): List[] => {
+const list = (state: List[]=[], action: ListActions): List[] => {
   switch (action.type) {
   case ListActionTypes.ADD_LIST:
     return [...state, action.data];
   case ListActionTypes.EDIT_LIST: 
     return state.map(el => {
       if(el.id!==action.listId) return el;
+      console.log(action.data);
       return action.data;
     });
   case ListActionTypes.DELETE_LIST:
@@ -57,7 +58,7 @@ const list = (state: List[]=[], action: ProjectActions): List[] => {
     return state;
   }
 };
-const listByProjectIdReducer = (state: ListbyProjectIdState={}, action: ProjectActions, {curProject}: listsState): ListbyProjectIdState => {
+const listByProjectIdReducer = (state: ListbyProjectIdState={}, action: ListActions, {curProject}: listsState): ListbyProjectIdState => {
   switch (action.type) {
   case ListActionTypes.ADD_LIST:
   case ListActionTypes.EDIT_LIST:
@@ -88,7 +89,7 @@ const initialListsState= {
   curProject: initialCurProjectState,
   listsbyProjectId: {}
 };
-export const listsReducer = (state: listsState = initialListsState, action: ProjectActions): listsState => {
+export const listsReducer = (state: listsState = initialListsState, action: ListActions): listsState => {
   return {
     curProject: curProjectReducer(state.curProject, action),
     listsbyProjectId: listByProjectIdReducer(state.listsbyProjectId, action, state)

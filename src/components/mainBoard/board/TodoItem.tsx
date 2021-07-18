@@ -13,7 +13,7 @@ interface IProps {
 
 const TodoItem: React.FC<IProps> = ({ todo, index, clickEvent, onCompleted }) => {
   return (
-    <Draggable draggableId={todo.id || ""} index={index}>
+    <Draggable draggableId={todo.id} index={index}>
       {provided => (
         <div
           className="mb-2"

@@ -24,6 +24,12 @@ const Menu: React.FC = () => {
     }
   }, [project.myProjects]);
 
+  const selectProject = (projectId: string) => {
+    if(projectId===curProjectId) {
+      return;
+    }
+    dispatch(fetchLists(projectId));
+  };
 
   return (
     <div className="mt-9">
@@ -35,8 +41,8 @@ const Menu: React.FC = () => {
             {project.isFetching && <p>Loading data...</p>}
             {
               project.myProjects && project.myProjects.map(el => (
-                <div key={el.id} onClick={() => dispatch(fetchLists(el.id))}>
-                  <Menuitem leftIcon={<MdAssessment />} label={el.name || ""} isActive={el.id===curProjectId} />
+                <div key={el.id} onClick={() => selectProject(el.id)}>
+                  <Menuitem leftIcon={<MdAssessment />} label={el.name} isActive={el.id===curProjectId} />
                 </div>
               ))
             }
@@ -47,8 +53,8 @@ const Menu: React.FC = () => {
             {project.isFetching && <p>Loading data...</p>}
             {
               project.coworkerProjects && project.coworkerProjects.map(el => (
-                <div key={el.id} onClick={() => dispatch(fetchLists(el.id))}>
-                  <Menuitem leftIcon={<MdAssessment />} label={el.name || ""} />
+                <div key={el.id} onClick={() => selectProject(el.id)}>
+                  <Menuitem leftIcon={<MdAssessment />} label={el.name} isActive={el.id===curProjectId} />
                 </div>
               ))
             }

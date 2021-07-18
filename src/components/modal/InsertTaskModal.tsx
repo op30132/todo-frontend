@@ -2,10 +2,16 @@ import { Formik, Form, Field } from "formik";
 import React from "react";
 import Modal from "react-modal";
 import DatePicker from "react-datepicker";
-import { TodoDTO } from "../../shared/model";
+import { Todo, TodoDTO } from "../../shared/model";
 import dayjs from "dayjs";
 import { MdClear } from "react-icons/md";
+import * as Yup from "yup";
 
+const TodoSchema = Yup.object().shape({
+  title: Yup.string().required("Required"),
+  content: Yup.string(),
+  dueDate: Yup.date().required("Required"),
+});
 interface IProps {
   isOpen: boolean;
   onHide: () => void;
@@ -34,17 +40,21 @@ const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit,
           content: todoItem?.content || "",
           dueDate: todoItem?.dueDate || new Date(),
         } as TodoDTO}
+        validateOnChange={false}
+        validateOnBlur={false}
+        validationSchema={TodoSchema}
         onSubmit={(
           values: TodoDTO
         ) => {
           onSubmit(values);
         }}>
-        {({ isSubmitting, values, setFieldValue }) => (
+        {({  errors, touched, isSubmitting, values, setFieldValue }) => (
           <Form>
             <div className="modal-content">
               <div className="flex mb-4">
                 <label htmlFor="title" className="w-2/12">Title</label>
                 <Field id="title" name="title" className="w-10/12" autoFocus />
+                {errors.title && touched.title ? <div className="text-red text-sm">{errors.title}</div> : null}
               </div>
               <div className="flex mb-4">
                 <label htmlFor="dueDate" className="w-2/12">DueDate</label>
@@ -56,6 +66,7 @@ const InsertTaskModal: React.FC<IProps> = ({ isOpen, onHide, todoItem, onSubmit,
                     showTimeSelect
                     onChange={date => setFieldValue("dueDate", date)}
                   />
+                  {errors.dueDate && touched.dueDate ? <div className="text-red text-sm">{errors.dueDate}</div> : null}
                 </div>
               </div>
               <div className="flex mb-4">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { List } from "../../../shared/model";
 import { MdMoreHoriz } from "react-icons/md";
 import { useDispatch } from "react-redux";
@@ -23,7 +23,7 @@ const Taskitem: React.FC<IProps> = ({ list, index }) => {
     <Draggable draggableId={list.id} index={index}>
       {provided => (
         <div
-          className={"m-2 w-80 inline-block align-top h-full "+ (index===0 ? " ml-4" : "")}
+          className={"m-2 pb-4 w-80 inline-block align-top h-full "+ (index===0 ? " ml-4" : "")}
           {...provided.draggableProps}
           ref={provided.innerRef}
         >
