@@ -25,10 +25,9 @@ const TodoList: React.FC<IProps> = ({ list }) => {
     openModal();
     setCurrentItem(todo || null);
   }, []);
-  const onCompleted = useCallback((todo: Todo) => {
-    todo.isComplete = !todo.isComplete;
-    updateTask(todo);
-  }, []);
+  const onCompleted = (todo: Todo) => {
+    updateTodo({...todo, isComplete: !todo.isComplete});
+  };
   const insertTask = (todo: TodoDTO) => {
     let pos = 65535;
     if (todos && todos.length > 0) {
@@ -46,13 +45,17 @@ const TodoList: React.FC<IProps> = ({ list }) => {
       dispatch(fetchdeleteTodo(list.id, currentItem.id)).then(() => onHide());
     }
   };
-  const updateTask = (todo: TodoDTO) => {
-    if(currentItem){
-      const data:Todo = { ...currentItem, ...todo };
-      dispatch(fetchUpdateTodo(data.id, data)).then(() => onHide());
-    }
+  const updateTodo = (todo: Todo) => {
+    dispatch(fetchUpdateTodo(todo.id, todo)).then(() => onHide());
   };
-
+  const handleSubmit = (todo: TodoDTO) => {
+    if(currentItem) {
+      const data: Todo = { ...currentItem, ...todo };
+      updateTodo(data);
+      return;
+    }
+    insertTask(todo);
+  };
   return (
     <>
       <div className="flex-grow overflow-y-auto min-h-0 px-3">
@@ -83,7 +86,7 @@ const TodoList: React.FC<IProps> = ({ list }) => {
           <span className="ml-2">Add a task</span>
         </div>
       </div>
-      <InsertTaskModal isOpen={isOpen} onHide={onHide} deleteItem={deleteItem} onSubmit={currentItem ? updateTask : insertTask} todoItem={currentItem}></InsertTaskModal>
+      <InsertTaskModal isOpen={isOpen} onHide={onHide} deleteItem={deleteItem} onSubmit={handleSubmit} todoItem={currentItem}></InsertTaskModal>
     </>
   );
 };

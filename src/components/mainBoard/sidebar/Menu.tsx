@@ -35,7 +35,7 @@ const Menu: React.FC = () => {
     <div className="mt-9">
       <ul className="space-y-1">
         <div></div>
-        <Menuitem leftIcon={<AiTwotoneCalendar />} label={"Calendar"} />
+        {/* <Menuitem leftIcon={<AiTwotoneCalendar />} label={"Calendar"} /> */}
         <Menuitem leftIcon={<HiFolder />} label={"Project"} dropList={
           <>
             {project.isFetching && <p>Loading data...</p>}
@@ -60,7 +60,7 @@ const Menu: React.FC = () => {
             }
           </>
         } />
-        <Menuitem leftIcon={<BiArchiveIn />} label={"Archived"} />
+        {/* <Menuitem leftIcon={<BiArchiveIn />} label={"Archived"} /> */}
       </ul>
     </div>
   );

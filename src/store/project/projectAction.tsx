@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { ThunkDispatch } from "redux-thunk";
 import { deleteProject, getCoworkerProjects, getInvitedProjects, getProjectById, getProjects, insertProject, inviteCoworker, joinCoworker, rejectCoworker, removeCoworker, updateProject } from "../../service/projectService";
 import { Project, ProjectDTO } from "../../shared/model";
-import { changeProject, emitAcceptCoworker, emitInviteCoworker, emitRejectoworker, emitRemoveCoworker } from "../../socket/socket";
+import { emitAcceptCoworker, emitChangeProject, emitInviteCoworker, emitRejectoworker, emitRemoveCoworker } from "../../socket/socket";
 import { ProjectState } from "./projectReducer";
 
 export enum ProjectActionTypes {
@@ -82,7 +82,7 @@ export const fetchInsertProject = (data: ProjectDTO) => (dispatch: Dispatch<addP
 export const fetchUpdateProject = (projectId: string, data: ProjectDTO) => (dispatch: Dispatch<editProjectAction>): Promise<void> => {
   return updateProject(projectId, data).then(res => {
     dispatch(editProject(projectId, res));
-    changeProject(projectId);
+    emitChangeProject(projectId);
   });
 };
 export const fetchdeleteProject = (projectId: string) => (dispatch: Dispatch<deleteProjectAction>): Promise<void> => {

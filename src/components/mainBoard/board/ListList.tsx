@@ -9,6 +9,7 @@ import { List, Todo } from "../../../shared/model";
 import { sortTodosInDiffList, sortTodosInSameList } from "../../../store/todo/todoAction";
 import { updateList } from "../../../service/listService";
 import { updateTodo } from "../../../service/todoService";
+import { emitSortLists, emitSortTodosinDiff, emitSortTodosinSame } from "../../../socket/socket";
 const ListList: React.FC = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [listName, setListName] = useState<string>("");
@@ -58,7 +59,8 @@ const ListList: React.FC = () => {
       }
       const targetPos = calcPos(source.index, destination.index, lists);
       const data = { pos: targetPos, projectId: projectId };
-      dispatch(sortLists({listId: draggableId, pos: targetPos} ));
+      dispatch(sortLists({listId: draggableId, pos: targetPos}));
+      emitSortLists(draggableId, data);
       updateList(draggableId, data).catch(() => listDispatch(fetchLists(projectId)));
       return;
     }
@@ -68,12 +70,16 @@ const ListList: React.FC = () => {
     if (sInd === dInd) {
       // sort todos in same list
       const pos = calcPos(source.index, destination.index, todos[dInd]);
-      dispatch(sortTodosInSameList({listId: dInd, todoId: draggableId, pos}));
+      const data = {listId: dInd, todoId: draggableId, pos};
+      dispatch(sortTodosInSameList(data));
+      emitSortTodosinSame(projectId, data);
       updateTodo(draggableId, {pos});
     } else {
       // sort todos in different list
       const pos = calcPos(-1, destination.index, todos[dInd]);
-      dispatch(sortTodosInDiffList({sListId: sInd,dListId: dInd,todoId: draggableId, pos}));
+      const data = {sListId: sInd,dListId: dInd,todoId: draggableId, pos};
+      dispatch(sortTodosInDiffList(data));
+      emitSortTodosinDiff(projectId, data);
       updateTodo(draggableId, {pos, listId: dInd});
     }
   };

@@ -118,12 +118,12 @@ interface getTodosByIdAction extends IReduxBaseAction {
   listId: string;
   data: Todo[]; 
 }
-interface sameSort {
+export interface sameSort {
   todoId: string;
   listId: string;
   pos: number;
 }
-interface diffSort {
+export interface diffSort {
   todoId: string;
   sListId: string;
   dListId: string;

@@ -10,11 +10,9 @@ export function getlistById(listId: string): Promise<List> {
 export function insertList(data: ListDTO): Promise<List> {
   return axiosInstance.post("api/list/create", data).then(res => res.data);
 }
-
 export function updateList(listId: string, data: ListDTO): Promise<List> {
   return axiosInstance.put(`api/list/${listId}`, data).then(res => res.data);
 }
-
 export function deleteList(listId: string): Promise<List> {
   return axiosInstance.delete(`api/list/${listId}`).then(res => res.data);
 }

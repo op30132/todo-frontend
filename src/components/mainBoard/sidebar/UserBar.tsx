@@ -4,6 +4,7 @@ import { MdNotifications } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { userLogout } from "../../../service/authService";
+import { emitDisconnect } from "../../../socket/socket";
 import { fetchJoinProject, fetchRejectProject } from "../../../store/project/projectAction";
 import { RootState } from "../../../store/rootReducer";
 import DropDownMenu from "../../modal/DropDownMenu";
@@ -15,6 +16,7 @@ const UserBar: React.FC = () => {
   const dispatch = useDispatch();
   const logout = () => {
     userLogout().then(() => {
+      emitDisconnect();
       history.push("/login");
     });
   };

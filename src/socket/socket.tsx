@@ -1,11 +1,11 @@
 import { ThunkDispatch } from "redux-thunk";
 import io, { Socket } from "socket.io-client";
 import { List, Project } from "../shared/model";
-import { addList, delList, editList, fetchLists, ListActions } from "../store/list/listAction";
+import { addList, delList, editList, fetchLists, ListActions, sortLists } from "../store/list/listAction";
 import { fetchProjectById, invitedProject, ProjectActions, removedProject } from "../store/project/projectAction";
 import { RootState } from "../store/rootReducer";
 import store from "../store/store";
-import { fetchTodosByListId, TodoActions } from "../store/todo/todoAction";
+import { diffSort, fetchTodosByListId, sameSort, sortTodosInDiffList, sortTodosInSameList, TodoActions } from "../store/todo/todoAction";
 const url = "ws://localhost:3001";
 let client: Socket;
 
@@ -48,6 +48,15 @@ export const clientInit = (): void => {
   client.on("projectFresh", (projectId: string) => {
     (store.dispatch as ThunkDispatch<RootState, void, ProjectActions>)(fetchProjectById(projectId));
   });
+  client.on("listSorted", (data: { listId: string, pos: number}) => {
+    store.dispatch(sortLists(data));
+  });
+  client.on("todoSortedinSame", (data: sameSort) => {
+    store.dispatch(sortTodosInSameList(data));
+  });
+  client.on("todoSortedinDiff", (data: diffSort) => {
+    store.dispatch(sortTodosInDiffList(data));
+  });
 };
 
 export const emitInviteCoworker = (userId: string, data: Project): void => {
@@ -77,9 +86,18 @@ export const emitDeleteList = (listId: string): void => {
 export const emitChangeTodo = (listId: string): void => {
   client.emit("changeTodoinList", {listId, projectId: store.getState().lists.curProject.projectId});
 };
-export const changeProject = (projectId: string): void => {
+export const emitChangeProject = (projectId: string): void => {
   client.emit("changeProject", projectId);
 };
-export const disconnect = (): void => {
+export const emitSortLists = (listId: string, data: {projectId: string, pos: number}): void => {
+  client.emit("sortLists", {listId, ...data});
+};
+export const emitSortTodosinSame = (projectId: string, data: sameSort): void => {
+  client.emit("sortTodosinSame", {projectId, data});
+};
+export const emitSortTodosinDiff = (projectId: string, data: diffSort): void => {
+  client.emit("sortTodosinDiff", {projectId, data});
+};
+export const emitDisconnect = (): void => {
   client.close();
 };
