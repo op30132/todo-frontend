@@ -44,19 +44,19 @@ export const fetchInsertList = (data: ListDTO) => (dispatch: Dispatch<addListAct
   return insertList(data).then(res => {
     dispatch(addList(res));
     emitAddList(res);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchUpdateList = (listId: string, data: ListDTO) => (dispatch: Dispatch<editListAction>): Promise<void> => {
   return updateList(listId, data).then(res => {
     dispatch(editList(listId, res));
     emitUpdateList(res);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchdeleteList = (listId: string) => (dispatch: Dispatch<deleteListAction>): Promise<void> => {
   return deleteList(listId).then(() => {
     dispatch(delList(listId));
     emitDeleteList(listId);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchLists = (projectId: string) => (dispatch: Dispatch<ListActions>): Promise<void> => {
   dispatch(requestLists(projectId));

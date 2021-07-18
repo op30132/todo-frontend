@@ -10,7 +10,7 @@ let refreshQueue: {
 }[] = [];
 const retries = 1;
 
-export const axiosInstance = axios.create();
+export const axiosInstance = axios.create({baseURL: "/api"});
 axiosInstance.interceptors.request.use(async (request: AxiosRequestConfig) => {
   const token = inMemoryJWT.getToken();
   if(token) {

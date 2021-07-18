@@ -6,7 +6,8 @@ import { fetchProjectById, invitedProject, ProjectActions, removedProject } from
 import { RootState } from "../store/rootReducer";
 import store from "../store/store";
 import { diffSort, fetchTodosByListId, sameSort, sortTodosInDiffList, sortTodosInSameList, TodoActions } from "../store/todo/todoAction";
-const url = "ws://localhost:3001";
+
+const url = process.env.REACT_APP_API_ENDPOINT || "";
 let client: Socket;
 
 export const clientInit = (): void => {

@@ -83,7 +83,7 @@ export const fetchUpdateProject = (projectId: string, data: ProjectDTO) => (disp
   return updateProject(projectId, data).then(res => {
     dispatch(editProject(projectId, res));
     emitChangeProject(projectId);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchdeleteProject = (projectId: string) => (dispatch: Dispatch<deleteProjectAction>): Promise<void> => {
   return deleteProject(projectId).then(() => dispatch(delProject(projectId)));
@@ -92,25 +92,25 @@ export const fetchInviteCoworker = (projectId: string, userId: string) => (dispa
   return inviteCoworker(projectId, {userId}).then(res => {
     dispatch(inviteUser(projectId, res));
     emitInviteCoworker(userId, res);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchRemoveCoworker = (projectId: string, userId: string) => (dispatch: Dispatch<removeCoworkerAction>): Promise<void> => {
   return removeCoworker(projectId, userId).then(res => {
     dispatch(removeUser(projectId, res));
     emitRemoveCoworker(projectId, userId);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchJoinProject = (projectId: string) => (dispatch: Dispatch<joinProjectAction>): Promise<void> => {
   return joinCoworker(projectId).then(res => {
     dispatch(joinProject(projectId, res));
     emitAcceptCoworker(projectId);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchRejectProject = (projectId: string) => (dispatch: Dispatch<rejectProjectAction>): Promise<void> => {
   return rejectCoworker(projectId).then(() => {
     dispatch(rejectProject(projectId));
     emitRejectoworker(projectId);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchProjects = () => (dispatch: Dispatch<ProjectActions>): Promise<void> => {
   dispatch(requestProjects());
@@ -120,10 +120,10 @@ export const fetchProjects = () => (dispatch: Dispatch<ProjectActions>): Promise
     getInvitedProjects()
   ]).then((res) => {
     dispatch(receiveProjects(res));
-  });
+  }).catch(err => alert(err));
 };
 export const fetchProjectById = (projectId: string) => (dispatch: Dispatch<getProjectAction>): Promise<void> => {
-  return getProjectById(projectId).then(res => dispatch(getProject(projectId, res)));
+  return getProjectById(projectId).then(res => dispatch(getProject(projectId, res))).catch(err => alert(err));
 };
 export type ProjectDispatch = ThunkDispatch<ProjectState, void, ProjectActions>;
 interface IReduxBaseAction {

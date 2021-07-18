@@ -25,9 +25,9 @@ const TodoList: React.FC<IProps> = ({ list }) => {
     openModal();
     setCurrentItem(todo || null);
   }, []);
-  const onCompleted = (todo: Todo) => {
+  const onCompleted = useCallback((todo: Todo) => {
     updateTodo({...todo, isComplete: !todo.isComplete});
-  };
+  } , []);
   const insertTask = (todo: TodoDTO) => {
     let pos = 65535;
     if (todos && todos.length > 0) {

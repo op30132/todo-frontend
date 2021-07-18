@@ -45,4 +45,4 @@ const Taskitem: React.FC<IProps> = ({ list, index }) => {
   );
 };
 
-export default Taskitem;
+export default React.memo(Taskitem);

@@ -55,25 +55,25 @@ const delTodo = (listId: string, todoId: string): deleteTodoAction => ({
 export const fetchTodosByListId = (listId: string) => (dispatch: Dispatch<getTodosByIdAction>): Promise<void> => {
   return todosByListId(listId).then(res => {
     dispatch(getTodosByListId(listId, res));
-  });
+  }).catch(err => alert(err));
 };
 export const fetchInsertTodo = (data: TodoDTO) => (dispatch: Dispatch<addTodoAction>): Promise<void> => {
   return insertTodo(data).then(res => {
     dispatch(addTodo(res.listId, res));
     emitChangeTodo(res.listId);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchUpdateTodo = (todoId: string, data: TodoDTO) => (dispatch: Dispatch<editTodoAction>): Promise<void> => {
   return updateTodo(todoId, data).then(res => {
     dispatch(editTodo(res.listId, todoId,res));
     emitChangeTodo(res.listId);
-  });
+  }).catch(err => alert(err));
 };
 export const fetchdeleteTodo = (listId: string, todoId: string) => (dispatch: Dispatch<deleteTodoAction>): Promise<void> => {
   return deleteTodo(todoId).then(() => {
     dispatch(delTodo(listId, todoId));
     emitChangeTodo(listId);
-  });
+  }).catch(err => alert(err));
 };
 export type TodoDispatch = ThunkDispatch<TodobyListIdState, void, TodoActions>;
 interface IReduxBaseAction {

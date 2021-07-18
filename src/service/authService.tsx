@@ -1,6 +1,6 @@
 
 import axios from "axios";
-import api, { axiosInstance } from "../shared/interceptor";
+import { axiosInstance } from "../shared/interceptor";
 import inMemoryJWT from "../shared/inMemoryJwt";
 import { AccessToken, UserProfile } from "../shared/model";
 
@@ -13,7 +13,7 @@ export function userRegister(user: UserProfile):Promise<UserProfile> {
   return axios.post<UserProfile>("/api/auth/register", user).then(res => res.data);
 }
 export function userLogout():Promise<boolean> {
-  return api.delete("/api/auth/token/logout").then(() => {
+  return axiosInstance.delete("/auth/token/logout").then(() => {
     inMemoryJWT.ereaseToken();
     return true;
   });
@@ -30,6 +30,6 @@ export function getRefreshToken(): Promise<AccessToken> {
     });
 }
 export function fetchUserProfile(): Promise<UserProfile> {
-  return axiosInstance.get<UserProfile>("/api/auth/userProfile").then(res => res.data);
+  return axiosInstance.get<UserProfile>("/auth/userProfile").then(res => res.data);
 }
 

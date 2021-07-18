@@ -18,7 +18,7 @@ const UserBar: React.FC = () => {
     userLogout().then(() => {
       emitDisconnect();
       history.push("/login");
-    });
+    }).catch(err => alert(err));
   };
 
   return (

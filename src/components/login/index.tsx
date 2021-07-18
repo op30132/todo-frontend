@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useHistory } from "react-router-dom";
@@ -11,7 +11,7 @@ const loginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string().required("Required"),
 });
-interface Values {
+interface loginDTO {
   email: string;
   password: string;
 }
@@ -19,9 +19,9 @@ interface Values {
 const Login: React.FC = () => {
   const history = useHistory();
   const googlelogin = () => {
-    window.location.href = "http://localhost:3001/api/auth/google";
+    window.location.href = process.env.REACT_APP_GOOGLE_AUTH || "";
   };
-  const login = (values: Values, { setSubmitting }: any) => {
+  const login = (values: loginDTO, { setSubmitting }: FormikHelpers<loginDTO>) => {
     userLogin(values.email, values.password).then(res => {
       if (res) {
         history.push("/home");

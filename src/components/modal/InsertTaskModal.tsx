@@ -2,7 +2,7 @@ import { Formik, Form, Field } from "formik";
 import React from "react";
 import Modal from "react-modal";
 import DatePicker from "react-datepicker";
-import { Todo, TodoDTO } from "../../shared/model";
+import { TodoDTO } from "../../shared/model";
 import dayjs from "dayjs";
 import { MdClear } from "react-icons/md";
 import * as Yup from "yup";
