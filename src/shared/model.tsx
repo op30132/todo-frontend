@@ -4,6 +4,11 @@ export interface UserProfile {
   email: string;
   createdAt?: string;
 }
+export interface RegisterDTO {
+  username: string;
+  email: string;
+  password: string;
+}
 
 export interface JwtToken {
   sub: string;

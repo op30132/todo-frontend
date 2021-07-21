@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import * as Yup from "yup";
 import AuthLayout from "../../layout/AuthLayout";
+import { userRegister } from "../../service/authService";
 import FocusError from "../../shared/focusError";
 
 const RegisterSchema = Yup.object().shape({
@@ -37,21 +38,10 @@ const register: React.FC = () => {
         onSubmit={(
           values: Values
         ) => {
-          fetch("/api/auth/register", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(values)
-          }).then(res => {
-            if (!res.ok) throw new Error(res.statusText);
-            return res.json();
-          }).then(data => {
-            if(data.code== 200) {
-              alert("Register success!");
-              history.push("/login");
-            }              
-          });
+          userRegister(values).then(() => {
+            alert("Register success! You can login now!");
+            history.push("/login");             
+          }).catch(err => alert(err));
         }}>
         {({ errors, touched }) => (
           <Form>

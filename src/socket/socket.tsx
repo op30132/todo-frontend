@@ -7,11 +7,10 @@ import { RootState } from "../store/rootReducer";
 import store from "../store/store";
 import { diffSort, fetchTodosByListId, sameSort, sortTodosInDiffList, sortTodosInSameList, TodoActions } from "../store/todo/todoAction";
 
-const url = process.env.REACT_APP_API_ENDPOINT || "";
 let client: Socket;
 
 export const clientInit = (): void => {
-  client = io(url,{
+  client = io({
     transports:["websocket"],
     auth: {
       userId: store.getState().user.userProfile?.id

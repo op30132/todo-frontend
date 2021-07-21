@@ -2,14 +2,14 @@
 import axios from "axios";
 import { axiosInstance } from "../shared/interceptor";
 import inMemoryJWT from "../shared/inMemoryJwt";
-import { AccessToken, UserProfile } from "../shared/model";
+import { AccessToken, RegisterDTO, UserProfile } from "../shared/model";
 
 export function userLogin(email: string, password: string):Promise<boolean> {
   return axios.post<AccessToken>("/api/auth/login", {email, password}).then(res => {
     return inMemoryJWT.setToken(res.data.accessToken);
   });
 }
-export function userRegister(user: UserProfile):Promise<UserProfile> {
+export function userRegister(user: RegisterDTO):Promise<UserProfile> {
   return axios.post<UserProfile>("/api/auth/register", user).then(res => res.data);
 }
 export function userLogout():Promise<boolean> {
