@@ -26,7 +26,7 @@ const TodoList: React.FC<IProps> = ({ list }) => {
     setCurrentItem(todo || null);
   }, []);
   const onCompleted = useCallback((todo: Todo) => {
-    updateTodo({...todo, isComplete: !todo.isComplete});
+    dispatch(fetchUpdateTodo(todo.id, {...todo, isComplete: !todo.isComplete}));
   } , []);
   const insertTask = (todo: TodoDTO) => {
     let pos = 65535;
@@ -45,13 +45,10 @@ const TodoList: React.FC<IProps> = ({ list }) => {
       dispatch(fetchdeleteTodo(list.id, currentItem.id)).then(() => onHide());
     }
   };
-  const updateTodo = (todo: Todo) => {
-    dispatch(fetchUpdateTodo(todo.id, todo)).then(() => onHide());
-  };
   const handleSubmit = (todo: TodoDTO) => {
     if(currentItem) {
       const data: Todo = { ...currentItem, ...todo };
-      updateTodo(data);
+      dispatch(fetchUpdateTodo(data.id, data)).then(() => onHide());
       return;
     }
     insertTask(todo);
